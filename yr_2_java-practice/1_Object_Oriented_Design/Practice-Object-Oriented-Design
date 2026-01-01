@@ -1,0 +1,64 @@
+//Abstract class - Model ownable from the UML Diagram
+
+public abstract class Ownable {
+  private Person owner;  // Attribute: link to a Person (the owner)
+  public Ownable() {/*...*/} //Constructor
+  public String getOwnerTel() {return owner.getTel();} // Delegates to Person to get the phone number
+  public void changeOwner (Person newOwner) {/*...*/} // Method to update the owner
+}
+
+//Car and pet inherit from Ownable --> In Java, they 'extend' it
+
+public class Car extends Ownable {/*...*/}
+public class Pet extends Ownable {/*...*/}
+
+//Person stores Ownable objects inside its own attribute
+
+public class Person {
+  private String name;
+  private String phone;
+  private int income;
+  private Ownable[] possessions;
+
+public Person (String name) { //Constructor
+    this.name = name;
+    this.phone = null;
+    this.income = 0;
+    this.possessions = new Ownable[2] // Use the abstract class (each Person object gets an array capable of holding two items that are “ownable.”, Each `Person` has an association to up to two Ownable objects)
+  }
+/*...*/
+}
+
+//How do Java interfaces act as Abstraction?
+//This allows a client class (essentially, another class) to use the object without knowing its underlying type, such as this:
+//Modelling UML Diagram
+
+ArrayList<BankAccount> myAccounts = new ArrayList<>(5); //creates a list that can store objects of type BankAccount or any subclass (like CurrentAccount or MortgageAccount)
+/*...*/
+myAccounts.add(new CurrentAccount()); //CurrentAccount and MortgageAccount are added because they inherit from BankAccount
+myAccounts.add(new MortgageAccount());
+/*...*/
+showAllAccounts(myAccounts); //`showAllAccounts(myAccounts)` shows polymorphism: the method works with different account types via their common parent class.
+
+//Working with collections - After Java 5.0
+
+import java.util.ArrayList;
+
+public class Auction {
+  private ArrayList<Lot> lots = new ArrayList<>(); //Declares a private list of `Lot` objects, initially empty, to store auction items.
+/*...*/ 
+  public void showLots(){ 
+    for (Lot lot: lots){ //for-each loop. It goes through each Lot object in the lots list one by one. iterates over the list and prints each item.
+      System.out.println(lot);
+    }
+  }
+}
+
+//Generic Types
+//Objects whose type is not specified until class instantiation
+
+import.java.util.ArrayList
+public class Box<T> { //type variable to refer to the unknown object type,
+  private ArrayList<T> contents;
+/*...*/
+}
