@@ -1,0 +1,153 @@
+// Collections
+
+ArrayList<Book> bookshelf = new ArrayList<>(100); //A resizable list for Book objects, starting with capacity 100.
+java.util.HashSet<Treasure> myTreasure = new java.util.HashSet<>(); //A set for Treasure objects that stores unique items with no duplicates.
+java.util.HashMap<String, Correspondence> phoneBook = new.java.utilHashMap<>(25); //A key-value map linking a String to a Correspondence, like a lookup table or phonebook.
+
+//Collections should provide an isEmpty() and size() operation, bounded collections should also have a isFull() and capacity(), and many ADTs will share other functions such as toString()
+
+//Exceptions - try ... catch
+
+public Map<Prize, Ticket> luckyDraw() { //Returns a Map where each Prize is matched with a winning Ticket.
+  Map<Prize, Ticket> winners = new HashMap <>(); //Creates an empty map to store prize–ticket pairs.
+  try { //Important bit!
+    for (Prize prize : prizes){  //Loops through all available prizes.
+      winners.put(prize, tickets.draw()); //Normal case - Draws a ticket for each one, and stores the result in the map (prize → ticket)
+    }
+  } catch (IllegalStateException ise) { //Looking for a specific error (If a problem occurs (for example, no tickets left to draw), the method stops early and returns whatever winners have been collected so far.)
+    return winners; // Error case
+  }
+  return winners;
+}
+
+//Bounded Interface - needs isFull() and capacity()
+
+public interface Bounded{
+  /**Returns true if collection has no more room for more elements*/
+  public boolean isFull(); //Remember, interfaces have no bodies on methods
+  /**Returns the maximum elements a collection can hold */
+  public int capacity();
+}
+
+/* But why not add the isEmpty() and size() methods too?
+We could, but we don’t need to because that’s not part of a Bounded interface. Yes, a 
+bounded collection would also need these methods, but it wouldn’t make sense for them 
+to be in this interface as it’s not specific to this.  Likewise, Bounded shouldn’t need 
+to extend java.lang.Iterable because that’s a feature of a collection. An ADT can extend 
+Iterable if required, but again, not all Bounded collections should have it */
+
+//Java interfaces typically define a set of abstract methods, such as public abstract int size(); but will not contain any data members 
+//Classes and interfaces modelling collections should be generic
+//isEmpty() , size() , and toString() for ALL
+
+//ADT COLLECTIONS
+//Stacks - LIFO
+public interface StackADT<T> {
+  public void push(T el);
+  public T pop();
+  public T peek();
+  public boolean isEmpty();
+  public int size();
+}
+//Bounded Stack
+public interface BoundedStack<T>
+extends StackADT<T> {
+  public boolean isFull();
+  public int capacity();
+}
+//Foster code reuse - Bounded Stack
+public interface BoundedStack<T>
+extends stackADT<T>, Bounded {
+  /*...*/
+}
+
+//Queues - FIFO
+piublic interface QueueADT<T> {
+  void enqueue (T el);
+  T dequeue();
+  T peek();
+  boolean isEmpty();
+  int size();
+}
+
+//Bounded Queue
+public interface BoundedQueue<T>
+extends QueueADT<T> {
+  public boolean isFull();
+  public int capacity();
+}
+
+//Foster code reuse - Bounded Queue
+public interface BoundedQueue<T> extends QueueADT<T>, Bounded {
+
+//Lists
+public interface ListADT<T> extends Iterable<T> {
+  boolean isEmpty();
+  int size();
+  String toString();
+
+//remove Elements
+  T removeFirst;
+  T removeLast;
+  boolean remove(T el);  // removes a specific object
+
+//peek at elements
+  T first();
+  T last ();
+}
+
+//Maps - Non-linear, an ADT that maps keys to values.
+/*Should a MapADT extend Iterable?
+No, it’d be better to add methods such as keySet() and valueSet() 
+to the ADT to facilitate looping over the keys or values in the 
+map respectively.*/
+
+// Map ADT
+public interface MapADT<K, V> {
+
+  // Add a new key-value pair
+  void add (K key, V value);
+
+  // Reassign an existing key to a new value
+  void reassign (K key, V value);
+  // Remove a key and its associated value
+  void remove(K key, V value);
+  // Lookup the value for a given key
+  void lookup(K key, V value);
+    
+  // Optional helpers for iteration
+  Iterable<K> keySet(); //Any class that implements Iterable<T> can be used in a for-each loop
+  Iterable<V> valueSet(); //Sequence of values to loop over.
+}
+
+//Sets - Unordered, technically non-linear collection of unique elements of a particular type.
+
+public interface SetADT<T> extends Iterable<T> {
+  public boolean add(T element); //Returns bool to indicate if the set changed or not
+  public boolean addAll(SetADT<T> A);
+  public boolean remove(T element);
+  public boolean removeAll(SetADT<T> A); //Removes all elements of set A from this set
+  public boolean retainAll(SetADT<T> A); //Removes all elements EXCEPT those in set A
+  public SetADT<T> union(SetADT<T>A); // Returns this ∪ A
+  public SetADT<T> intersection(SetADT<T>A); // Returns this ∩ A
+  public SetADT<T> difference(SetADT<T>A); // Returns this \ A
+  public boolean isSubset(SetADT<T> A); // this ⊆ A
+  public boolean contains (T element);
+  public boolean equals (SetADT<T>A);
+  public boolean isEmpty();
+  public int size();
+}
+
+//Multi-sets - Element can appear more than once, unordered.
+
+public interface MultiSetADT<T>{
+  // basic operations
+  boolean isEmpty();
+  int size();
+  void add (T element);
+  boolean remove(T element);
+  
+  // MultiSet-specific operations
+  int count(T element); // Number of occurrences of an element
+  MultiSetADT<T> sum (MultiSetADT<T> other); //// Combine two multisets
+}
