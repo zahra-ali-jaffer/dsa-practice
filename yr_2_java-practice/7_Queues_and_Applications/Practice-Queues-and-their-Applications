@@ -1,0 +1,6 @@
+//Circluar Queues - because dequeue() has O(n) time complexity, as it needs to shift every element down
+//Avoid loop- back and ArrayIndexOutOfBounds by modulus function
+
+rear = (rear + 1) % contents.length; //works for front too
+
+//CircularArrayQueue implements QueueADT
