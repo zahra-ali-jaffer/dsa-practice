@@ -1,0 +1,57 @@
+//2D Arrays (example aze for traversal)
+
+int[][] a; //Memory-wise, a lives on the stack, but the actual array (all the 12 integer cells) is allocated on the heap.
+a = new int [3][4]; //3 rows, 4 columns, 12 cells, a is int[][] → holds integers
+double[][] b = new double[10][10]; // 10 rows, 10 columns, b is double[][] → holds floating-point numbers.
+
+//assigning values
+a[0][0] = 1; 
+a[0][1] = 5; //...
+
+//far better
+int[][] c = {{1, 5, 1, 4,}, {6, 0, 3, 2}} // 2 rows, 4 columns
+
+//To get number of rows, use:
+c.length //2
+
+//To get number of columns, use
+c[0].length //4
+
+/*A 2D array like int[][] a can represent a maze:
+Each cell = a maze square (0 = path, 1 = wall, 2 = visited).
+Traversal (DFS/BFS) = move through the array using row & column indices.
+int[][] is for walls/paths, double[][] can store weighted paths if needed.
+Basically: array = maze map, indices = coordinates, algorithm = pathfinder.
+*/
+
+//To loop through a 2D array
+(reuse c)
+for (int row = 0; row < c.length; row++) {
+  for(int col = 0; col < c[row].length; col++) {
+    c[row][col] *=2; //multiply each element by 2
+  }
+}
+//Or enhanced fors
+for (int[]row : c) { //row of c is type int
+  for (int element : row){
+    element++; // increment each element of c by 1
+  }
+}
+
+//Wrap java.util.Stack in a Wrapper class (define methods that simply call the relevant method on a private field which is just a stack)
+//java.util.stack is not a part of JCF but of JDK
+//java.util.stack extends java.util.vector which has tons of features making it incompatible for modelling a pure stack
+
+import java.util.Stack;
+public class PureStack<T>{
+  private Stack<T> stack;
+  /*...*/
+  public T pop() {return stack.pop();}
+  /*like this.... wrapped stack*/
+}
+
+//ArrayDeque can be used instead!
+//More consistent and complete set of LIFO stack operations provided by Dequeue interface
+Dequeue <integer> Stack = new ArrayDequeue<>();
+
+
