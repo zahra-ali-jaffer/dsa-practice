@@ -1,0 +1,280 @@
+//Abstract Class
+
+//addAll() method in a set
+
+public boolean addAll(SetADT<T> A) { //allows any type of set to be used here
+  boolean isModifies = false; //Tracks whether this set changes at least once
+
+  for (T element: A) { //Loops through every element in set A, this works because SetADT<T> extends Iterable<T>
+    if (this.add(element)) //Important bit - Calls the set’s own add() method
+      isModified = true; //If any element was successfully added, mark the set as modified
+  }
+  return isModified;
+}
+
+/* Why this belongs in an abstract class?
+addAll() is the same for every set
+Only add() depends on how the set is implemented
+An abstract class can:
+Implement addAll()
+Leave add() abstract for subclasses*/
+
+//Class AbstractSet<E> implements Iterable<E>, Collection<E>, and Set<E>, As an abstract class, it may leave some methods unimplemented for subclasses to define. Behaviour-based methods like removeAll(), equals(), and hashCode() can be implemented once and reused by all set implementations.
+abstract class AbstractSet<E>
+implements Iterable<E>, Collections<E>, Set<E>
+
+//AbstractSet for the SetADT
+import java.util.Iterator; //[needed]
+public abstract class AbstractSet<T> implements SetADT<T>{ //SetADT
+
+//addAll requires implementation
+  public boolean addAll(SetADT<T>A){
+    boolean isModifies = false; //Tracks whether this set changes at least once
+
+    for (T element: A) { //Loops through every element in set A, this works because SetADT<T> extends Iterable<T>
+      if (this.add(element)) //Important bit - Calls the set’s own add() method
+        isModified = true; //If any element was successfully added, mark the set as modified
+    }
+    return isModified;
+  }
+  public boolean removeAll(SetADT<T>A) {
+    boolean isModified = false;
+    Iterator<T> iter = A.iterator(); //Assume implemented in concrete
+    while (iter.hasNext()){
+      if(this.remove(iter.next())) isModified = true;
+      //remove() means we dont need to worry about implementation
+    }
+  return isModified;
+  }
+  public boolean retainAll(SetADT<T>A){ //retainAll keeps only the elements that are also in A:
+    boolean isModified = false;
+    Iterataor<T> iter = this.iterator();
+    while (iter.hasNext()){  //Loop through every element in this
+      if (!A.contains(iter.next())){ //If the element is not in set A → we need to remove it
+        // Removing from iter. removes it from both the iterator AND the underlying collection
+        iter.remove();
+        isModified = true;
+      }
+    }
+    return isModified;
+  }
+  public boolean isSubset(SetADT<T>A) { //isSubset() checks whether every element in this set is also in set A
+    if (this.size() > A.size()) return false; //A subset cannot have more elements than the set it’s compared to. If this is bigger, it’s immediately not a subset
+    for (T element : this) {
+      if(!A.contains(element)) return false; //if A does not contain this element → this is not a subset
+    }
+    return true; //If all elements passed the check, this is a subset of A
+  }
+  public boolean equals(SetADT<T> A){
+    if(this.size()) != A.size return false;
+    return isSubset(A);
+  }
+}
+
+//Arrays - lifetime fixed capacity
+//Allocate now, initialise later
+int[] a;
+a = new int[10]; // allocate memory for 10 integers
+
+// Allocate and initialise now
+boolean[] attendanceInWeek = new boolean[5];
+java.util.GregorianCalendar[] calendars = new java.util.GregorianCalendar[2024];
+
+// Allocate and initialise with values now
+int[] c = {1, 3, 2, 4}; // This cannot be done after an array is already declared
+
+
+//Implementing ADTs with Arrays
+//Sets - CODE 1:
+
+import java.util.Iterator;
+public class ArraySet<T> extends AbstractSet<T> implements Bounded {
+  private static final int DEFAULT_CAPACITY = 100;
+
+  private T[] contents;  // Stores the elements
+  private final int maxSize; // Maximum number of elements allowed
+  private int count; //Different to length (Current number of elements)
+
+  @SuppressWarnings("unchecked") //[bad sign!]
+  public ArraySet(int maxSize) { //Make Object[] and type cast it to T[] 
+    contents = (T[]) (new Object[maxSize]);
+    // better approach to above is contents = (T[]) Array.newInstance(Object.class, maxSize);
+    contents =(T[])Array.newInstance(Object.class, maxSize);
+    count = 0;
+    this.maxSize = maxSize;
+  }
+  public ArraySet() { //Overload if no size is provided
+    this(DEFAULT_CAPACITY);
+  }
+  //basic accessor methods
+  public int size() {return count; }
+  public boolean isEmpty() {return currentSize == 0; }
+  public int capacity {return maxSize; }
+  public boolean isfull () {return currentSize == maxSize; }
+
+  public boolean contains(T element) {
+    for (int i = 0; i < count; i++) { //Why not enhanced for? (According to lecture) Using an enhanced for here is slightly slower because you have to go through the Iterator object. (Research) Cannot use enhanced for-loop safely if array may have unused slots
+      if(element.equals(contents[i])) return true;
+    }
+    return false;
+  }
+  public boolean add(T element){ 
+    if (!contains(element)) { //Adds element only if not already in the set
+      if(!isFull()){
+        contents[count] = element;
+        count++; //Remember to increment count so line above will always work
+        return true;
+      } else throw new IllegalStateException("Set full in method add");
+    } else return false;
+  }
+  public boolean remove(T element) {
+    for (int i = 0; i < count; i++) {
+      if (element.equals(contents[i]))
+        count--;
+        contents[i] = contents[content]; //So no gap left
+        return true
+      }
+    }
+    return false;
+  }
+  public SetADT<T> intersection(SetADT<T> A){
+    ArraySet<T> result = new ArraySet<T>(maxSize); //New set to hold result
+    for (int i = 0; i < count; i++) {
+      if (A.contains(contents[i])) {
+        result.contents[result.count] = contents[i];
+        // Why not do results.add()? 
+				// Because it will do the "if already exists" check when it's pointless
+      }
+    }
+    return result;
+  }
+  public Iterator<T> iterator() { return new ArrayIterator<T>(contents, count); }
+}
+// Seperate class for an ArrayIterator (since array doesn't already have one)
+public class ArrayIterator<T> implements Iterator<T>{ //ArrayIterator handles the traversal
+  private T[] contents;
+  private int cursor;
+  private int limit;
+
+  public ArrayIterator(T[] array, int size) { //Parameters from ArraySet
+    contents = array;
+    limit = size;
+    cursor = 0;
+  }
+  public boolean hasNext() {return cursor < limit; }
+  public T next() {
+    if(!hasNext()) throw new IllegalStateException("ArrayIterator: no next element");
+    else return contents [cursor++]; //Return is contents[cursor], ++ happens after
+  }
+  public void remove() {throw new UnsupportedOperationException("remove");}
+}
+
+//Making an Array Implementation Unbounded (Dynamic Resizing)
+/*...*/
+public boolean add(T element) { //Replacing old method!
+  boolean added = false; 
+  if (!contains(element)) { // Only add if not present
+    if (size()== contents.length) { //isFull() won't exist without Bounded interface!
+      expandCapacity(); //No need for exceptions
+    }
+    contents[count] = elements;
+    count++; //Remember to increment count so line above will always work!
+    added = true
+  }
+  return added;
+}
+
+@SuppressWarnings("unchecked")
+private void expandCapacity() {
+	// Creates the new, larger array.
+	// This is using the better method but the unsafe way works too
+  T[] larger = (T[]) Array.newInstance(Object.class, contents.length * 2);
+  // Copy elements from old to new!
+  for (int index = 0; index < contents.length; index++){
+    larger[index] = content[index];
+  }
+  contents = larger; // Update contents to use new array.
+}
+/* ... */
+
+//Stack - CODE 2
+
+public class ArrayStack<T> implements BoundedStackADT<T> {
+  private static final int DEFAULT_CAPACITY = 100;
+  private T[] contents;
+  private final static int maxSize;
+  private int top; //currentSize, count
+
+  public ArrayStack(int maxSize){
+    contents = (T[])(new Object[maxSize]);
+    top = 0;
+    this.maxSize= maxSize;
+  }
+
+  //Accessor methods (similar to ArraySet)
+  public int size() {return top;}
+  public boolean isEmpty() { return top == 0; }
+  public int capacity() { return maxSize; }
+  public boolean isFull() { return top = maxSize; }
+
+  public void push(T element) {
+    if (isFull()) throw new IllegalStateException("pop: Stack full");
+    contents[top] = element;
+    top++;
+  }
+
+  public T pop() {
+    if (isEmpty()) throw new IllegalStateException("pop: Stack empty");
+    top --;
+    return content[top];
+    // We don't need to reset the old top to null because it'll be overwritten anyway.
+	}
+
+  public T peek() {
+    if (isEmpty()) throw new IllegalStateException("pop: Stack empty");
+    return contents[top - 1];
+  }
+  public void clear() {top = 0;} // The time complexity of this is O(1).
+}
+
+//Making an Array Implementation Unbounded (again- but in push())
+/*...*/
+public void push (T element) {
+  if (size() == contents.length) expandCapacity()
+  contents[top] = element;
+  top++;
+}
+/* ... and expandCapacity is EXACTLY the same */
+// Time complexity of push() is now O(n), because it could, at basically any point, need an expansion, which requires looping through the old array.
+
+//Queues - CODE 3
+public class ArrayQueue<T> implements QueueADT<T>{
+  private static final int DEFAULT_CAPACITY = 100;
+  private int rear; //Next available spot
+  private T[] queue; // Array storing queue elements
+
+  @SuppressWarnings("unchecked") //problem
+  public ArrayQueue (int initCapacity) {
+    rear = 0;
+    queue = (T[])(new Object[initCapacity]); //Still Unsafe!!
+  }
+  public ArrayQueue() {
+    this(DEFAULT_CAPACITY); 
+  } //To call the constructor properly
+  public void enqueue(T element) {// O(1)
+    if (size() == queue.length) throw new IllegalStateException("enqueue: queue full!");
+    queue[rear] = element;
+    rear++
+  }
+  public T dequeue() { // O(n) 
+    if (isEmpty()) throw new IllegalStateException ("dequeue:queue empty!");
+    T result = queue[0];
+    rear --;
+    //Have to shift everything
+    for (int scan = 0; scan < rear; rear scan ++) queue[scan] = queue[scan +1];
+    
+    queue[rear] = null;
+    return result;
+  }
+}
+
