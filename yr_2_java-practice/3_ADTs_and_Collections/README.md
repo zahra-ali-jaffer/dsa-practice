@@ -1,4 +1,4 @@
-# Collections Operations Summary
+#  Collection ADTs Operations Summary
 
 ## Stacks (LIFO)
 **Operations:** `isEmpty()`, `size()`, `toString()`, `push(T el)`, `pop()`, `peek()`, `isFull()`, `capacity()`
