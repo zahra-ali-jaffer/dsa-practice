@@ -1,0 +1,206 @@
+//self-referntial object
+class Person {
+  private String name;
+  private Person mother; //the field mother would be of type Person
+  private childBearing;
+}
+
+//LinearNode
+public class LinearNode<T> {
+  private T element; //our element
+  //generics!!
+  private LinearNode<T> next; //The node after this one
+
+  public LinearNode() { //Empty node
+    next = null;
+    element = null;
+  }
+  public LinearNode(T elem) {// Creates node with element
+    next = null;
+    element = elem;
+  }
+  public LinearNode<T> getNext() {return next;} //Returns the node that comes after this one.
+  public void setNext(LinearNode<T> node) {next = node;} //Sets the reference to the next node.
+  public T getElement() {return element; } //Returns the data stored in the node.
+  public void setElement (T elem) {element = elem;} //Updates the data stored in the node.
+}
+
+//Tree nodes (basic)
+private T element; // our element
+private TreeNode<T> leftChild; //left follower node
+private TreeNode<T> rightChild; //right follower node
+
+
+//Implementing ADTs with Linked Structures!
+//Stack - Linear - LIFO
+
+public class LinkedStack<T> implements StackADT<T>{
+  private LinearNode<T> top;
+  private int count; //Tracks the number of elements in the stack, used for size() and isEmpty()
+
+/*...,emitting constructors*/
+  public void push(T element) {
+    LinearNode<T> temp = new LinearNode<T>(element);  //Create a new node containing element
+    temp.setNext(top); //Make the new node point to the current top.
+    top = temp; //Update top to point to the new node.
+    count++; //Increment the element count
+
+  public T pop() {
+    if (isEmpty()) throw new IllegalStateException("pop: stack empty");  //Check if the stack is empty (cannot pop from empty stack)
+
+    T result = top.getElement(); //Store the top element
+    top = top.getNext(); //Replaces old top, with new old //Move top to the next node (removing the old top)
+    count --; //Decrease the count.
+
+    return result; //Return the removed element.
+  }
+  public T peek() { 
+    if (isEmpty()) throw new IllegalStateException("peek: stack empty");
+    return top.getElement();  //Returns the element at the top without removing it.
+  }
+  public boolean isEmpty(){return count == 0;} //Returns true if there are no elements in the stack.
+  public int size() {return count; } //Returns the number of elements currently in the stack.
+}
+
+//Queue - Linear - FIFO
+private LinkedQueue<T> implements QueueADT<T> {
+  private int count;
+  private LinearNode<T> front; //Points to the first element in the queue. This is where elements are removed (dequeue).
+  private LinearNode<T> rear; //To make enqueue() faster. Points to the last element in the queue. This is where elements are added (enqueue). Having rear makes enqueue() run in O(1) time.
+
+  public LinkedQueue() { //Creates an empty queue, wih no nodes
+    count = 0;
+    front = null;
+    rear = null;
+  }
+  public void enqueue(T element) {
+    LinearNode<T> node = new LinearNode<T>(element);
+    if (isEmpty()) {
+      front = node;
+      rear = node;
+    }else {
+      rear.setNext(node);
+      rear = node;
+    }
+     count++;
+  }
+  public T deque() {
+    if (isEmpty()) throw new IllegalStateException("dequeue: queue empty!");
+    
+    T result = front.getElement();
+    front = front.getNext();
+
+		// Check, else we'll enqueue after the linked node, not updating the front
+    if (isEmpty()) rear = null;
+    return result;
+  }
+  public boolean isEmpty(){ return front == null;}
+  public int size() {return count;}
+  public void clear() {front = null; rear = null; count = 0;}
+}
+
+//Set - logically unordered - Distinct values
+
+public class LinkedSet<T> extends AbstractSet<T>{
+  private int count;
+  private LinearNode<T> contents; //first node - Order has no meaning for a set.
+  public LinkedSet() {count = 0; contents = null;} // Creates an empty set
+
+  //Simple methods
+  public boolean isEmpty() { returns contents = null; }
+  public int size() { return count; } //Returns the number of elements
+  public void clear() { contents = null; count = 0; } //Removes all elements
+
+  public boolean contains(T element){ 
+    LinearNode<T> current = contents; //Traverses the linked list
+    while (current != null) {
+      if (element.equals(current.getElement())) return true; //Compares each stored element with element.
+      else current = current.getNext();
+    }
+    return false; //Time Complexity: O(n)
+  }
+
+  public boolean add(T element){
+    if (!contains(element)) { //First checks for duplicates using contains.
+      LinearNode<T> node = new LinearNode<T>(element); //If the element is not already present, creates a new node.
+      node.setNext (contents); //Inserts it at the front of the list.
+      contents = node; 
+      count++;
+      return true;
+    }
+    return false;
+  }
+
+  public boolean remove(T element) {
+    // Case 1: Empty set
+    if (contents== null) return false;
+
+    //Case 2: Element is first node
+    // An else is unnecessary as if if runs, it'll stop execution of the method anyway.
+    if (element.equals(contents.getElement())) {
+		  // Special case where element is first in list, simply make second element first
+      contents = contents.getNext();
+      count --;
+      return true
+    }
+
+    //Case 3: Element is in the middle or end
+    LinearNode<T> previous = contents;
+    LinearNode<T> current = contents.getNext();
+    while (curremt != null) {
+      if (element.equals(current.getElement())){
+        previous.setNext(current.getNext()); // Removes interior node
+        count --;
+        return true;
+      }
+      previous = current;
+      current = current.getNext();
+    }
+    return false;
+  }
+
+  // Returns a new set which is an exact copy of this one.
+  public LinkedSet<T> copy() {
+    LinkedSet<T> result = new LinkedSet<T>(); //to be returned
+    LinearNode<T> current = contents;
+    LinearNode<T> newNode;
+
+    while (current!= null)
+      newNode = new LinearNode<T>(current.getElements()); // New node dupe of old
+      newNode.setNext(result.contents); //Set first second
+      result.contents = newNode; //Set first
+      current = current.getNext(); //Get next element
+    }
+    result.count = this.count; //set final size correctly
+    return result;
+  }
+
+  public SetADT<T> union(SetADT<T>A){
+    LinkedSet<T> result == this.sopy(); //Avoid modifying this.contents by accident - Makes a copy of the current set.
+    result.addAll(A); //Adds all elements from set A.
+    return result; //Returns the combined set with no duplicates.
+  }
+  	/* ..., skipping difference() and intersection(), done previously */
+
+  public Iterator<T> iterator() {
+    return new LinkedIterator<T>(contents);
+  }
+}
+
+// SEPARATE FILE
+
+import java.util.iterator;
+public class LinkedIterator<T> implements Iterator<T>  //Iterates over a linked structure.
+  private LinearNode<T> cursor; //Tracks the current node.
+  public LinkedIterator(LinearNode<T>contents){
+    cursor = contents; //Set cursor to start
+  }
+  public boolean hasNext() { return cursor != null; } //Returns true if there are more elements.
+    if (!hasNext()) throw new IllegalStateException("no next element");
+
+    T result = cursor.getElement();
+    cursor = cursor.getNext();
+    return result;
+  }
+	// We cannot implement remove() as we cannot update the LinkedSet's count.
+}
