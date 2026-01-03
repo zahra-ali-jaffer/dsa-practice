@@ -1,0 +1,57 @@
+//implementation of pickRandom()
+public T pickRandom(){
+  if (isEmpty()) throw new IllegalStateException("pickRandom: set empty!");
+  
+  //Use Random module, without importing it:
+  java.util.Random rdm = new java.util.Random(); //Random is a class in java.util that generates random numbers. By creating rdm, we can generate random indices into the set.
+  int choice = rdm.nextInt(count); // nextInt gives a random int between 0 and count-1
+  return contents[choice];
+}
+
+//Set Applications
+/*A set would come useful in modelling the collection of bingo balls:
+1. create balls,
+2. store them all in a set,
+3. draw one ball from the set, announce it, and then
+4. repeat Step 3 *n - 1* times, *where n is total number of balls required in a game.*/
+
+public class BingoBall{
+  //Letter corresponds to the number, so its easier to find
+  private char letter;
+  private int number;
+
+  public bingoBall(int num){
+    this.number = num;
+    if (num <= 15)
+      letter = 'B'; //Single qoutes are imp!
+    else if (num <= 30)
+      letter = 'I';
+    else if (num < = 45)
+      letter = 'N';
+    else if (num <= 60)
+      letter = 'G';
+    else letter = 'O';
+  }
+  public String toString() { return (letter + " " + number); }
+}
+
+public class Bingo {
+  public static void main(String[]args){
+    final int NUM_BALLS = 75 ; //total balls
+    final int NUM_PULLS = 10 ; //How many balls we draw
+
+    ArraySet<BingoBall> bingoSet = new ArraySet<BingoBall>();
+    BingoBall ball;
+    //Make NUM_BALLS balls
+    for(int ballNum = 1; ballNum <= NUM_BALLS; ballNum++){
+      ball = new BingoBall(ballNum)
+      bingoSet.add(ball);
+    }
+    System.out.println("We have "+ bingoSet.size() + "balls in play!\n");
+    //Pull NUM_PULL balls
+    for (int pulls = 1; pull <= NUM_PULLS; pull++){
+      ball = bingoSet.removeRandom();
+      System.out.println(ball); //This'll run ball.toString() for us
+    }
+  }
+}
