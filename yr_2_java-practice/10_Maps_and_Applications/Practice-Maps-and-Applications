@@ -1,0 +1,43 @@
+//Maps assign keys to values
+//They may also be called dictionaries, associative arrays, or lookup tables.
+
+//Creating a Map
+Map<String, Supplier> suppliersByName = new HashMap<>();
+Map<String, Set<Supplier>> suppliersByCity = newTreeMap<>();
+
+//Dictionary
+//properties of an online dictionary to a Java class
+public class DictionaryEntry {
+  private String word;
+  private String deifinition;
+  private String example;
+  private User creator;
+  private Date dateCreated;
+  private int likes;
+  private int dislikes;
+
+  /* ... */
+}
+//Word to be used as the key, where the DictionaryEntry is the value (5000 entries)
+Map<String, DictionaryEntry> dictionary = new HashMap<>(7500)  //without a perfect hash function, multiply your dictionary size by 1.5
+
+//Iterating through a Map
+//Can't loop through easily, because of key-value map structure
+//kvp --> key-value-pair
+
+HashMap<String, Student> students = new HashMap<>();
+
+for(String key : students.keySet()) { //Returns sets of keys
+  Student student = students.get(key);
+}
+//Or
+for (Student student: students.values()) { //Returns collections of values
+	// Student already defined. Remember, values can be the same
+}
+//Or 
+for (Map.Entry<String, Student> kvp : students.entrySet()){ // Returns set of kvps
+  String key = kvp.getkey();
+  Student student = kvp.getValue();
+}
+
+
