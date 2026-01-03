@@ -1,0 +1,30 @@
+//Extraction
+public int hashFunction (String name){  //This declares a public method that takes a String called name and returns an int.
+  char initial = name.charAt(0); //Get the first character of the string, Example: "Alice" → 'A'
+  int asciiCode = (int) initial; // Casting a char to an int gives its ASCII code, Example: 'A' → 65, 'Z' → 90
+  return asciiCode - 65; // // To make A = 0, B = 1, so on so forth
+}
+
+//hash code to determine where to put it inside of a hash table
+//public int hashCode()
+/*It returns an integer based off the memory location the object is initially 
+placed in, however, many classes override the inherited hashCode() method, 
+and is necessary is the equals() method is overridden.*/
+//hashCode() → decides bucket
+//equals() → decides which object in the bucket matches
+
+//Example: Student class --> Overwrite the methods
+
+public class Student {
+  private String id;
+  private String surname;
+  private String firstname;
+
+  public int hashCode() {return id.hashCode();}
+
+  public int equals(Object another){
+    if (another instanceof Student) return this.id.equals(another.id);
+    return false;
+  }
+}
+
