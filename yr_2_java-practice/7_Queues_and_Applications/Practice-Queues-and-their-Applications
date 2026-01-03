@@ -1,6 +1,172 @@
-//Circluar Queues - because dequeue() has O(n) time complexity, as it needs to shift every element down
+//Circluar Queues - because dequeue() has O(n) time complexity, as it needs to shift every element down - Instead of shifting elements when removing from the front, we wrap indices around the array using modulo (%).
 //Avoid loop- back and ArrayIndexOutOfBounds by modulus function
 
 rear = (rear + 1) % contents.length; //works for front too
 
 //CircularArrayQueue implements QueueADT
+public class CircularArrayQueue<T> implements QueueADT<T>{
+  private final int DEFAULT_CAPACITY = 100;
+  private T[] queue; //The array that stores the elements.
+
+  private int front; //First (oldest) Element
+  private int rear; //Next available spot
+  private count;
+
+  private CircularArrayQueue(){ //Constructor
+    queue = (T[]) (new Object[DEFAULT_CAPACITY]); //Cast is required because Java does not allow generic array creation.
+    front = 0; rear = 0; count = 0;
+  }
+  public void enqueue(T elem){
+    if (size() == queue.length) expandCapacity(); //array
+
+    queue[rear] = element; //Store the element at the rear index.
+    rear = (rear + 1) % queue.length; //Move rear forward.
+    count++;
+  }
+
+  private void expandCapacity(){
+    //Safe way to do it (lecture mentions unsafe way)
+    T[] larger = (T[]) new Array.newInstance(Object.class, queue.length*2); //Creates a new array twice the size.
+    
+    for (int scan = 0; scan < count; scan ++) {
+      larger[scan] = queue[front]; 
+      front = (front + 1) % queue.length;
+    }
+    front = 0; rear = count;
+    queue = larger;
+  }
+
+  public T dequeue() {
+    if (isEmpty()) throw new IllegalStateException("dequeue: queue empty!")
+
+    T result = queue[front];
+    queue[front] = null;
+    front = (front + 1) % queue.length;
+    count--;
+
+    return result;
+  }
+}
+
+//Simulating Ticket Counters
+//Assume customers arriving roughly every 15 seconds, and processing a request takes 2 minutes from the time they arrive at a cashier. We want to keep the wait time under 7 minutes. 
+//Goal: See how increasing the number of cashiers reduces average customer time.
+
+private final int PROCESS = 120; //2 minutes - Time required to serve one customer
+private final int MAX_CASHIERS =?; //Maximum number of cashiers tested
+private final int NUM_CUSTOMERS = ?; //Total customers in the simulation
+
+public static void main(String[] args){
+  LinkedQueue<Customer> customerQueue = new LinkedQueue<Customer>(); //FIFO queue of customers waiting to be served
+  int[] cashierTime = new int[MAX_CASHIERS]; //Tracks when each cashier becomes free
+  int totalTime = 0; int averageTime; int departs;
+
+  for (int cashiers = 0; cashiers < MAX_CASHIERS;cashiers++){  //Each iteration uses a different number of cashiers
+    //initialise each cashier's time of availability.
+    for (int count = 0; count < cashiers; count++) cashierTime[count] = 0;   //This is where cashiers are initialised. Every cashier starts free at time 0
+    //Create queue of customers
+    for (int count = 1; count<= NUM_CUSTOMERS; count++) 
+      customerQueue.enqueue(new Customer(count * 15)); // Create customers queue, customers arrive every 15 seconds
+
+    while (!customerQueue.isEmpty()){
+      for (int count = 0; count <= cashiers; count++){ //Each cashier tries to serve one customer per loop
+        if (!customerQueue.isEmpty()){
+          Customer customer = customerQueue.dequeue(); //Customer leaves the waiting line
+          if (customer.getArrivalTime() > cashierTime[count]) //Calculate Departure Time
+            departs = customer.getArrivalTime() + PROCESS; //Cashier is idle, Customer arrives after cashier is free, Service starts immediately
+          else departs = cashierTime[count] + PROCESS; //Cashier is busy, Customer must wait, Service starts when cashier is done
+
+          customer.setDepartureTime(departs); //Store customer’s finish time
+          cashierTime[count] = departs; //Update cashier availability
+          totalTime += customer.totalTime(); //Add customer’s total time in system
+        }
+      }
+    }
+    averageTime = totalTime/NUM_CUSTOMERS; //Computes average time spent per customer
+    System.out.println("Number of cashiers" + (cashiers + 1)); //Prints performance for each cashier count
+    System.out.println("Average time:" + averageTime + "\n")
+  }
+}
+
+//Priority Queues  - Elements will have a priority field, which determines if it can jump in front of other elements with a lower priority. Data with the same priority are still processed in a FIFO manner.
+
+public interface Prioritised {
+  int getPriority(); //lets the queue read an element’s priority
+  void setPriority(int level); //lets the priority be changed
+}
+public class LinkedPriorityQueue<T extends Prioritised> implements QueueADT<T>{ //Generic Constraint - compile-time safety - Singly linked list
+  private LinearNode<T> front; //front always points to the highest-priority element 
+	// There's no reason to keep track of the rear node this time
+  private int count; //No rear pointer needed because insertion order depends on priority, not arrival
+
+  /* ... */
+  public void enqueue(T el){ //This method inserts elements in sorted order based on priority.
+    LinearNode<T> tmp = new LinearNode<T>(el);
+    LinearNode<T> previous = null;
+    LinearNode<T> current = front;
+
+    //find where to insert
+    //This loop stops when: End of list reached OR Found a node with lower priority 
+    while(current != null && current.getElement().getPriority() >= el.getPriority()){  //FIFO Still Works for Equal Priorities; if priorities are equal: Existing elements stay ahead. New element goes after them
+      previous = current;
+      current = current.getNext();
+    }
+    //Case 1: Insert at front (highest priority) Happens when queue is empty, new element has higher priority than current front
+    if (previous == null) { //Insert at front
+      tmp.setNext(front);
+      front = tmp;
+    } else  //Case 2: Insert in middle or end
+      tmp.setNext(previous.getNext()); //Places the new node between previous and current.
+      previous.setNext(tmp);
+    }
+    count++;
+  }
+  public T dequeue() { //Always from front
+    if (isEmpty()) throw new IllegalStateExceptions("dequeue: queue empty!");
+    T item = front.getElement();
+    front = front.getNext();
+    count--;
+    return item;
+  }
+}
+
+//Multi-Queue Implementation
+//0 being the lowest priority
+//Implement a priority queue as an array of FIFO queues, the larger array being of size M + 1.
+
+public class PriorityQueue<T ectends Prioritised> implements QueueADT<T>{  //Generic type T must implement Prioritised: Guarantees every element has: int getPriority();
+  private QueueADT<T>[]queueList; //Array of queues- queueList[i] stores all elements with priority i
+  private final int maxPriority; //Highest priority allowed - determines array size
+  private int count; //Total number of elements across all queues
+
+  public PriorityQueue(int maxPriority){
+    this.maxPriority = maxPriority; //store max priority
+    queueList = (QueueADT<T>[]) Array.newInstance(QueueADT.class, maxPriority + 1);
+    for (int i = 0; i <= maxPriority; i++){ queueList[i] = new LinkedQueue<T>(); }
+    count = 0;
+  }
+  public void clear(){
+    for (int i = 0; i <= maxPriority; i++) { queueList[i].clear();} //Every priority level starts with an empty queue
+    count = 0; //clear multiple internal queues
+  }
+  public boolean isEmpty() { return count == 0;}
+
+  public void enqueue(T element){
+    int index = element.getPriority(); //This priority determines which bucket to use.
+    queueList[index].enqueue(element); //FIFO order preserved within the same priority
+    count++;
+  }
+  public T dequeue(){
+    if (isEmpty()) throw new IllegalStateException("dequeue:queue empty!");
+    int idx = findQueue();
+    count --;
+    return queueList[idx].dequeue(); //Always removes highest-priority available element
+  }
+  private int findQueue(){
+    for (int i = maxPriority; i >= 0; i--){
+      if(!queueList[i].isEmpty()) return i;
+    }
+    return -1;
+  }
+}
+
