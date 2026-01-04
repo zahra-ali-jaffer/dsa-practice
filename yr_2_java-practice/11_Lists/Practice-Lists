@@ -1,0 +1,202 @@
+//Improving code(unit 5 - Person class- Self referential object)
+//Making it doubly-linked
+
+public enum Gender { male, female, other; }
+public class Person{
+  private String name;
+  private Gender gender;
+  private Person mother; //link to another person object
+  private Person child; //self-referential
+
+  public Person(String name, Gender gender, Person mother)
+    this.gender = gender;
+    this.name = name;
+    this.mother = mother;
+    this.child = null;
+}
+
+  public Person givesBirth(String childName,Gender childGender) {
+    if (this.gender != Gender.female) System.out.println("Gender is Female!")
+    if (this.child != null) new UnsupportedOperationException("One child only!")
+
+    this.child = new Person(childName, childGender, this);
+    return this.child;
+  } 
+
+//Doubly-Linked Lists
+
+public class DoubleNode<T> {
+  private DoubleNode<T> previous;
+  private DoubleNode<T> next;
+  private T element;
+
+  public DoubleNode(T elem) {
+    previous = null; 
+    next = null; 
+    element = elem;
+  }
+  public DoubleNode<T> getPrevious() {return previous; }
+  public void setPrevious(DoubleNode<T> node) {previous = node;}
+  public DoubleNode<T>getNext() {return next; }
+  public void setNext(DoubleNode<T>node) {next = node; }
+}
+
+/*With doubly linked list, it's easier to support remove() 
+operation of an Iterator*/
+
+cursor.previous().setNext(cursor.next()):
+cursor.cursorNext();
+
+//This is an advantage of using a Doubly-Linked List. 
+//Another advantage is going forwards or backwards
+//And a list can now be processed in reverse order.
+
+/*Con of this is three elements to keep track of. 
+This increases overhead in both storage (more links needed) 
+and time (need to update both)*/
+
+//Modelling Doubly-Linked Lists
+
+import java.util.Iterator;
+
+public abstract class DoubleList<T> {
+  protected DoubleNode<T> front;
+  protected DoubleNode<T> rear;
+  protected int count;
+
+  protected DoubleList() {
+    rear = null; front = null; count = 0;
+  }
+  protected T removeLast() //Return the element at the back, remove the node
+    if (isEmpty()) throw new IllegalStateException("removeList: List is Empty!");
+
+    T result = rear.getElement();
+    rear = rear.getPrevious;
+    count--;
+
+    if (rear == null) front = null;
+    else rear.setNext(null);
+
+    return result;
+  }
+  protected T removeFirst() { 
+    if(isEmpty()) throw new IllegalStateException("removeFirst: List Empty!");
+
+    T result = front.getElement();
+    front = front.getNext();
+    count--;
+
+    if (front == null) rear = null; 
+    else front.setPrevious(null);
+
+    return result;
+  }
+  protected void remove(DoubleNode<T> node){
+    if (node == null) throw new IllegalArgumentException("remove: node cannot be null!");
+    if (isEmpty()) throw new IllegalStateException("remove: list empty!");
+
+    if (node == front) this.removeFirst(); //Easier to reuse than redo methods
+    else if (node == rear) this.removeLast();
+    else {
+      node.getNext().setPrevious(node.getPrevious());
+      node.getPrevious().setNext(node,getNext());
+      count--;
+    }
+  }
+  protected void addFirst(T element) {
+    DoubleNode<T> node = new DoubleNode<T>(element);
+    node.setNext(front);
+    front = node;
+    if(count == 0) rear = node; //  Count not updated yet for this reason
+    else {
+      front.getNext().setPrevious(node);
+    }
+    count++;
+  }
+
+//Also addLast() --> similar way
+
+  protected void addAfter(DoubleNode<T> current, T element){
+    if (current == null)
+      throw new IllegalArgumentException("addAfter: node cannot be null");
+    if (current == rear) addLast(element);
+
+    else{
+      DoubleNode<T> node = new DoubleNode<T>(element);
+      node.setNext(current.getNext());
+      node.setPrevious(current);
+      current.getNext().setPrevious(node);
+      current.setNext(node);
+      count++
+    }
+  }
+
+//Similarly --> addBefore()
+
+  protected DoubleNode<T> find(T target) {
+    DoubleNode<T> cursor: front;
+    while (cursor!= null) {
+      if(target.equals(cursor.getElement())) return cursor;
+      else cursor = cursor.getNext();
+    }
+    return null;
+  }
+  protected boolean contains(T element) {return find(element) != null; }  
+  public boolean isEmpty() {return count == 0; }
+  public int size() { return count;}
+  public void clear() {front = null; rear = null; count = 0; }
+  public Iterator<T> iterator() { return new DoibleIterator(); }
+
+  //NESTED CLASS- also supportd the remove operation
+  
+  private class DoubleIterator implements Iterator<T> { //Implicitly generic
+    //We also already have access to all the data fields in DoubleList!
+    private DoubleNode<T> cursor; // next node to be returned by next
+    private DoubleNode<T> node; // node just returned by next, to be removed
+
+    public DoubleIterator() {cursor = front; node = null; }
+    public boolean hasNext() { return cursor!= null; }
+    public boolean T next() {
+      if (!hasNext()) throw new IllegalStateException("next: no next element!");
+      node = cursor; //NEW
+      T result = cursor.getElement();
+      cursor = cursor.getNext();
+      return result;
+    }
+    public void remove() {
+      if(node == null) throw new IllegalStateException("remove: nothing to remove");
+     
+      if (node == rear) {//last element
+        rear = rear.getPrevious();
+        if (rear == null) front = null; // List had 1 element, now empty
+        else rear.setNext(null);
+      }
+      else if (node == front) { //front element
+        front = front.getNext();
+        front.setPrevious(null); //No edge case, List must have more than 1 element
+      }
+      else {
+        node.getPrevious().setNext(node.getNext());
+        node.getNext().setPrevious(node.getPrevious());
+      }
+      count--;
+      node = null; // Stops remove() from being called twice in one next() call
+    }
+  }
+}
+
+//List Operations (Headers of the interfaces)
+
+public interface ListADT<T> extends Iterable<T>{}
+/* .add(Comparable) requires that T extends Comparable so we put that in the defintion.
+	 Then, .add() will use T's compareTo() method to determine where to place elements, 
+			< 0 means this should preceed the given element
+			= 0 means it has the same natural order as the given element
+			> 0 means this should come after the given element. */
+
+public interface OrderedListADT<T extends Comparable<T>> extends ListADT {}
+public interface UnorderedListADT<T> extends ListADT{}
+public interface IndexedListADT<T> extends ListADT{}
+
+
+
