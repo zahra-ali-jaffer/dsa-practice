@@ -91,7 +91,7 @@ Java cannot create generic arrays → cast needed
 
 - **remove(T element):** swap with last element, decrement `count` → O(1), order not preserved
 
-- ** intersection(SetADT<T> A):** create new set with elements present in both sets, direct array assignment avoids unnecessary checks
+- **intersection(SetADT<T> A):** create new set with elements present in both sets, direct array assignment avoids unnecessary checks
 
 #### Iterator 
 
