@@ -198,5 +198,207 @@ public interface OrderedListADT<T extends Comparable<T>> extends ListADT {}
 public interface UnorderedListADT<T> extends ListADT{}
 public interface IndexedListADT<T> extends ListADT{}
 
+//Using an Ordered List
+//compareTo() method --> Keep track of Employee objects, sorting by their seniority and then their names alphabetically. 
+
+public class Employee implements Comparable<Employee> {
+/* ... */
+public int compareTo(Employee another){
+	int result;
+
+	//Approach 1
+	if (this.years > another.getYears()) result = 1;
+	else if (this.years < another.getYears()) result = -1;
+	else result = this. name.compareTo(another.getName());
+
+	//Approach 2
+	if (this.years == another.getYears()) result = this.name.compareTo(another.getName());
+	else result = this.years - another.getYears()
+	return result;
+}
+/* ... */
+}
+
+//Implementing following methods
+public class LinkedOrderedList<T extends Comparable<T>> 
+	extends DoubleList<T> implements OrderedListADT<T>{ //Gains access to: front, rear, DoubleNode<T> & methods like addFirst(), addLast(), removeLast(), find()
+	// Since some methods are already defined in DoubleList, we can use the super modifier
+	public LinkedOrderedList() { super (); }
+
+	public boolean remove(T element) {
+		DoubleNode<T> tmp = super.find(element);
+		if (tmp == null) return false;
+		super.remove(tmp); //If found → remove that node
+		return true;
+	}
+	public void add(T element) {
+		if (front == null) { super.addFirst(element); return; } //If the list is empty, add the element as the first node
+		// Look for entry position
+		DoubleNode<T> cursor = front;
+		while (cursor!= null && element.compareTo(cursor.getElement())>0)
+			cursor = cursor.getNext() //maintains ascending order
+		if (cursor == null) super.addLast(element); //Add last, Reached end --> Add element to the end
+		else super.addBefore(cursor, element); // Add element before cursor node, Found larger element -- > Insert before that node
+	}
+	public T first() {
+		if (front == null) throw new IllegalStateException("first: no first element");
+		return front.getElement(); //Returns the smallest element (because list is ordered)
+	}
+	public T removeLast() {return super.removeLast(); } // Exposes the protected class
+}
+
+//Using an Indexed List
+//Define a private findNode(n) method which returns the DoubleNode<T> at the nth index of the list.
+
+public class LinkedIndexedList<T> extends DoubleList<T> implements IndexedListADT<T>{ //Inherits a doubly linked list, and Guarantees support for index-based operations
+	public LinkedIndexedList() { super(); } //Calls the constructor of DoubleList, initialises front = null, rear = null, count = 0
+	private DoubleNode<T> findNode(int i) {
+		if (i < 0 || i >= count) //Converts an index into a node reference
+			throw new IllegalArgumentException("findNode: index parameter OutOfBounds");
+		DoubleNode<T> current = front;
+		for (int cursor = 0; cursor < i; cursor++) current = current.getNext(); //Starts at the front node, Moves forward i times, Returns the node at position i
+		return current;
+	}
+	public T get(int idx){ //Retrieves the node at index idx
+		return findNode(idx).getElement();
+	}
+	public T set(int idx, T element) { //Returns old element
+		DoubleNode<T> node = findNode(idx);
+		T res = node.getElement();
+		node.setElement(element);
+		return res;
+	}
+	public T remove(int idx){ //Replaces the element at index idx, Returns the old value
+		DoubleNode<T> node = findNode(i)
+		super.remove(node);
+		return node.getElement();
+	}
+	public void add(int idx, T element){ 
+		if (i == 0) super.addFirst(element); // New first element
+		else if (i == count) super.addLast(element); //New rear element
+		else {
+			DoubleNode<T>next = findNode(i); //Insert in middle
+			super.addBefore(next, element);
+		}
+	}
+	public int indexOf(T target) {
+		DoubleNode<T> cursor = front;
+		int pos = 0;
+
+		while (cursor != null){ //Search Loop
+			if (target.equals(cursor.getElement())) return pos; //Traverses list sequentially, uses .equals() for comparison
+			else {
+				pos++;
+				cursor = cursor.getNext(); //Stops when found
+			}
+		}
+		return -1; //Not found
+	}
+}
+
+//Most time complexities are O(n)
+//Linked lists are not ideal for random access, but excel at insertions/removals once a node is located.
+
+
+//Implementing Lists with Arrays
+//Example: Like a queue, fix one end to index 0 and shift as needed. 
+//Why not circular array?
+/*we cannot use a circular array approach to solve shifting here, because we 
+can remove things from the middle of the list, unlike a queue.*/
+
+//With an Indexed Lists
+public class ArrayList<T> implements IndexedListADT<T>{
+	public static final int DEFAULT_CAPACITY = 20;
+	private T[] elements;
+	private int size;
+	private int capacity;
+
+	public ArrayList(int initCapacity){
+		elements = (T[]) (new Object[initCapacity]); 
+		size= 0;
+		capacity = initCapacity;
+	}
+	public ArrayList() { this(DEFAULT_CAPACITY); }
+	public int size() { return size; }
+	public boolean isEmpty() { return size == 0; }
+	public void clear() {size = 0; } //clear() does not delete the array, It just “forgets” stored elements by resetting size, Efficient: O(1)
+	public boolean contains (T elem){ return indexOf(elem) !=-1; }
+	
+	// Considering this'll only happen when adding, leave a gap
+	// so no need to shift again once this is done.
+	private void extendArray(int gap){
+		capacity *= 2;  //Doubles array size when full
+		T[] newArray = (T[]) (new Array.newInstance(Object.class,capacity));
+		// Splitting this into two loops increases efficiency, because there isn't a 
+		// statement in the middle that adds extra processing.
+		for (int i = 0; i < gap; i++) {newArray[i] = elements[i]; } //Leaves a gap at index gap for insertion
+		for (int i = gap; i < size; i++) { newArray[i + 1] = elements[i]; }
+		elements = newArray;
+	}
+	public void add (int idx, T element){
+		if (idx < 0 || idx > size) // idx == size is allowed, idx == size means add at end
+		if (size == capacity) extendArray(idx); //When full, grow array and leave gap
+		else { // Shift everything up by one, starting from the end!
+			for (int j = size; j > idx; j++) { elements[j]=elements[j - 1]; } //If there is space, shift elements right by one
+		}
+		elements[idx] = element;
+		size++;
+	}
+	public int indexOf(T elem){ //Linear search, Uses .equals() (correct for objects), O(n)
+		for (int i = 0; i < size; i++){
+			if (elem.equals(elements[i])) return i;
+		}
+		return -1; // not found!
+	}
+	public T get(int idx){
+		if (idx < size && idx >= 0) return elements[idx];
+		else throw new IllegalStateException ("set: index OutOfBounds");
+	}
+	public T set(int idx, T element)  //Return old element 
+		if (idx < size && idx >= 0) {
+			T res = elements[idx];
+			elements [idx] = element;
+			return res;
+		} else throw new IllegalArgumentException("set: index OutOfBounds");
+	}
+	public T remove (int idx) {
+		if(idx < 0 || idx > size)
+			throw new IllegalArgumentException("remove: index OutOfBounds");
+		T elem = elements[idx];
+		// Shift everything after idx back down
+		for(int j = idx + 1; j < size; j++) {elements[j - 1] = elements[j]; } //Store element to return, Shift elements left, Decrease size - O(n) due to shifting
+		size --;
+		return elem;
+	}
+	public Iterator<T> iterator() {return new ArrayIterator(); }
+
+	private class ArrayIterator implements Iterator<T> {
+		private int cursor;
+		private int current;
+		public ArrayIterator() {cursor = 0; current = -1;}
+		public boolean hasNext() {return cursor < size; }
+		public T next(){
+			if (!hasNext()) throw new IllegalStateException("next: no next element!");
+			current = cursor;
+			T result = elements[cursor];
+			cursor++;
+			return result;
+		}
+		public void remove() { //Removes last returned element, shifts array left, prevents repeated removal
+			if (current == -1)
+				throw new IllegalStateException("remove: no element to remove!");
+			for (int i= current; i < size; i++) {elements[i] = elements[i + 1]; }
+			size--;
+			cursor--;
+			current = -1; //To prevent re-run
+		}
+	}
+}
+
+
+
+
+
+
 
 
