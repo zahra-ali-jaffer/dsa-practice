@@ -23,3 +23,27 @@ public int size() {
   if (next = null) return 1;
   else return 1 + next.size();
 }
+
+//Processing Linear Linked Structures with Recursion
+
+public class LinearNode<T> {
+  private LinearNode<T> next;
+  private T element;
+
+/*...*/
+
+public int size() {
+  if (next == null) return 1; Base case
+  else retrun 1 + next.size(); // Recursive case
+}
+// toString() is basically the same idea
+public String toString(){
+  if (next == null) return element.toString(); //Base case
+}
+}
+
+
+
+
+
+
