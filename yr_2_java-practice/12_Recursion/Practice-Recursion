@@ -39,7 +39,10 @@ public int size() {
 // toString() is basically the same idea
 public String toString(){
   if (next == null) return element.toString(); //Base case
+  else return 1 + next.size(); //Recursive case
 }
+
+
 }
 
 
