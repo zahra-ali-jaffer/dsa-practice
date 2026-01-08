@@ -1,0 +1,156 @@
+//Implementing Generic Binary Trees
+
+public class BinaryTree<T> implements Iterable<T> {
+  protected BinaryTreeNode<T> root; //root is the top node of the tree
+
+  public BinaryTree() {root = null; } //If root == null, the tree is empty
+  public BinaryTree(T element) { root = new BinaryTreeNode<T>(element); } //Creates a tree with one node (the root) containing element
+
+  public void clear() { root = null; } //Removes all nodes by setting the root to null, java’s garbage collector cleans up the rest
+
+  public int size() { return size (root); } //Tree size (number of nodes)
+  protected int size(BinaryTreeNode<T>node) { //Recursive helper
+    if (node == null) return 0;
+    return 1 + size(node.left) + size(node.right);
+  }
+  public int height() { return height(root); } //Tree height
+  protected int height (BinaryTreeNode<T> node) { //Recursive helper
+    if (node == null) return -1;
+    return 1 + Math.max(height(node.left), height(node.right));
+  }
+  public String toString() { //Converting the tree to a string
+    String result ="{";
+    result += toString(root);
+    return result + "}";
+  }
+  protected String toString(BinaryTreeNode<T> node) { //In-order traversal | Left subtree-->  Node --> Right subtree
+    if (node == null) return "";
+    return toString(node.left)
+      + " " + node.element.toString() + ""
+      + toString(node.right);
+  }
+  public BinaryTree<T> copy() { //Copying the tree (deep copy)
+    BinaryTree<T> result = new BinaryTree<T>();
+    result.root = copy(root);
+    return result;
+  }
+  protected BinaryTreeNode<T> copy(BinaryTreeNode<T> node) { //Recursive helper
+		if (node == null) return null;
+		return new BinaryTreeNode<T>(node.element, copy(node.left), copy(node.right)); //Creates a new tree with new nodes, Structure is identical, but nodes are independent
+	}
+
+	public T find(T target) { // Uses pre-order traversal - Finding an element
+		BinaryTreeNode<T> tmp = find(target, root);
+		if (tmp == null) return null;
+		else return tmp.element;
+	}
+	protected BinaryTreeNode<T> find(T target, BinaryTreeNode<T> node) { //Pre-order search
+		if (node == null) return null;
+		else if (target.equals(node.element)) return node; //Uses equals() for comparison
+
+		BinaryTreeNode<T> tmp = find(target, node.left); //Check current node -->  Search left subtree
+		if (tmp == null) tmp = find(target, node.right); // -->  Search right subtree 
+		return tmp;
+	}
+	public Iterator<T> iterator() { 
+		ArrayList<T> list = new ArrayList<>(size());
+		inorder(root, list);
+		return list.iterator();
+	}
+	protected void inorder(BinaryTreeNode<T> node, ArrayList<T> list) { //Converts the tree into a list using in-order traversal, Returns an iterator over that list
+		if (node == null) return; 
+		inorder(node.left, list);
+		list.add(node.element);
+		inorder(node.right, list);
+	}
+	public static class BinaryTreeNode<E> { //Represents one node in the tree, static so it doesn’t depend on the outer class instance
+		public E element; //  node stores a value 
+		public BinaryTreeNode<E> left; //a left child 
+		public BinaryTreeNode<E> right; //a right child
+
+		public BinaryTreeNode(E element) { //Creates a leaf node
+			this.element = element;
+			this.left = null; this.right = null;
+		}
+		public BinaryTreeNode(E element, BinaryTreeNode<E> left, BinaryTreeNode<E> right) { //Creates a node with children
+			this.element = element;
+			this.left = left; this.right = right;
+		}
+
+		public boolean isLeaf() { return (left == null && right == null); } //Leaf check
+	}
+}
+
+// Level-Order Traversal, breadth-first - FIFO
+
+public void print() { //Prints all tree elements in level order
+  QueueADT<BinaryTreeNode<T>> nodes = new LinkedQueue<BinaryTreeNode<T>>(); //QueueADT is an abstract queue interface, LinkedQueue is a queue implementation, Queue stores tree nodes, not elements
+
+  if (root != null) nodes.enqueue(root); //Start traversal from the root, prevents errors if the tree is empty
+
+  BinaryTreeNode<T> nodes;
+  while (!nodes.isEmpty()) { //Loop until queue is empty
+    node = nodes.dequeue()){ //Remove the next node
+    System.out.print(node.element.toString() + "")
+
+    if (node.left != null) nodes.enqueue(node.left); //Add children to the queue
+    if (node.right != null) nodes.enqueue(node.right);
+  }
+}
+
+//Binary Search Tree
+public class BST<T extends Comparable<T>> extends BinaryTree<T> {
+  private int size;
+  public BST() { super(); size = 0; }
+  public BST(T elem) { super(elem); size =1; }
+
+  public int size() { return size; }
+
+  public void add(T elem) {
+    root = add(elem, root);
+    size++;
+  }
+  protected BinaryTreeNode<T> add(T elem, BinaryTreeNode<T>node) {
+    if (node == null) return new BinaryTreeNode<T>(elem);
+
+    int comparison = elem.compareTo(node.element);
+		if (comparison < 0) node.left = add(elem, node.left); 
+		else node.right = add(elem, node.right);
+		// If we replaced the line above with "else if (comparison > 0)", 
+		// duplicate elements wouldn't be added. That's presumably why we define the var.
+		
+		return node; // So parent nodes are also updated
+	}
+
+	// We don't need to overwrite the public find(), only the protected one.
+	protected BinaryTreeNode<T> find(T target, BinaryTreeNode<T> node) {
+		if (node == null) return null; // Base case!
+		int comparison = target.compareTo(node.element);
+		if (comparison < 0) return find(target, node.left); // target is before this node
+		else if (comparison > 0) return find(target, node.right); // target after
+		else return node; // Match!
+	}
+	/* ... */
+}
+
+
+//Implementing N-ary Trees (store the amount of nodes in an array)
+public class NaryTreeNode<T> { //Represents one node in an N-ary tree
+	private T element; //The data stored in the node
+	private NaryTreeNode<T>[] children; //Array holding references to child nodes
+	private int numChildren; //Tracks how many children are currently in use
+
+	public NaryTreeNode(int order, T element) { //order → maximum number of children allowed | element → value stored in the node
+		this.element = element; //Stores the node’s data
+		children = (NaryTreeNode<T>[]) new Object[order]; //Java does not allow direct generic array creation, so: Create an Object --> Cast it to NaryTreeNode<T> (causes an unchecked cast warning)
+		numChildren = 0; //Node starts with no children
+	}
+
+	public void addChild(NaryTreeNode<T> child) { //Adds a child to the node
+		if (numChildren >= children.length)  //Prevents adding more than order children
+			throw new IllegalStateException("addChild: already at max children!"); //Enforces the N-ary tree constraint
+
+		children[numChildren] = child; //Child is added to the next free slot
+		numChildren++: //numChildren is incremented
+	}
+}
