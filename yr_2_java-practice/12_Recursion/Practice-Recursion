@@ -24,6 +24,12 @@ public int size() {
   else return 1 + next.size();
 }
 
+//Inifinite loop
+public void printOnes() {
+  System.out.print(1);
+  printOnes();
+}
+
 //Processing Linear Linked Structures with Recursion
 
 public class LinearNode<T> {
@@ -39,14 +45,96 @@ public int size() {
 // toString() is basically the same idea
 public String toString(){
   if (next == null) return element.toString(); //Base case
-  else return 1 + next.size(); //Recursive case
+  else return element.toString() + ", " next.toString(); //Recursive step
+  // To reverse the returned string, you can simply flip the parts around (return next.toString() + ", " + element.toString();)
+  // the middle string!
+}
+public LinearNode<T> copy() {
+  LinearNode<T> current = new LinearNode<T>(element);
+  if (next != null) {
+    current.next = next.copy(); // Keep going because everything must be copied! -  Recursive copy
+  }
+  // The base case here (as it's explicitly written) in next == null.
+  return current;
+  }
 }
 
+//Changing code in LinkedList class
+/*how the LinkedList class changes once the recursive logic is moved into the node (LinearNode) class. 
+The key idea is delegation: the list itself only manages the entry point (front), and the nodes handle 
+the recursive work.*/
 
+public class LinkedList<T> {
+  private LinearNode<T> front;
+  /* ... */
+
+  public String toString() {
+    String result = "{"; 
+    if (front != null) result += front.toString();
+    result += "}";
+    return result;
+  }
+
+  public LinkedList<T> copy() {
+    LinkedList<T> result = new LinkedList<>();
+    if (front != null) result.front = front.copy();
+    return result;
+  }
 }
 
+//Change methods only in LinkedList so it’s still recursive, but without going into the nodes themselves:
+//Recursion in the LinkedList class itself
 
+public class LinkedList<T>{
+  private LinearNode<T> front;
+/*...*/
+  public LinkedList<T> copy(){
+    LinkedList<T> result = new LinkedList<>();
+    if (front != null) result.front = this.copy(front); //if the list is not empty: Calls the recursive helper copy(front) - Sets the new list’s front to the copied node chain
+    return result;
+  }
+  private LinearNode<T> copy(LinearNode<T> node) {
+    LinearNode<T> current = new LinearNode<>(node.getElement());
+    if (node.getNext() != null) current.setNext(this.copy(node.getNext()));
+    return current;
+  }
+}
 
+//Example: Tower of Hanoi
+private void moveTower(int numDisks, int start, int end, int temp) { //numDisks → number of disks to move | start → source peg | end → destination peg | temp → temporary (auxiliary) peg
+  if (numDisks == 1) moveOneDisk(start, end); //If only one disk, move it directly from start to end (recursion stops)
+  else {
+    moveTower (numDisks - 1. start, temp, end); //Moves the smaller stack off the largest disk, uses end as the temporary peg
+    moveOneDisk(start, end); //Now, the largest disk is free, move it directly to the destination peg
+    moveTower(numDisks-1, temp, end, start); //Moves the smaller stack from the temp peg to the destination, uses the original start peg as temporary storage
+  }
+}
+private void moveOneDisk(int start, int end) { //Represents the actual move in the algorithm
+  System.out.printIn("Move one disk from" + start + "to" + end); //Prints the instruction for a single disk move 
+}
 
+/*or every iteration of moveTower() (excluding the base case), we make two extra 
+executions of moveTower(), and then even on the base case, we make one moveOneDisk()*/
+//The asymptotic complexity is O(2ⁿ). We call it twice, making it doubly recursive. 
+
+//Example: Fibonacci Numbers
+//(Inefficient solution) - like towers of Hanoi, its doubly recursive- O(2ⁿ)
+public int fib(int n) { //Calculate nth Fibonacci number
+  if (n == 0 || n == 1) return 1; //Base Case
+  else return fib(n - 1) + fib(n - 2);
+}
+
+//More Efficient - iteratively rather than recursively - O(n)
+public int fib(int n) {
+  if (n == 0 || n ==1 ) return 1;
+
+  int f0 = 1; int f1 = 1; int result;
+  for (int i = 2; i <= n; i++) {
+    result = f0 + f1;
+    f0 = f1;
+    f1 = result;
+  }
+  return result;
+}
 
 
