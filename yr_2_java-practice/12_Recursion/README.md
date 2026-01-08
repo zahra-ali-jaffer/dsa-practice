@@ -143,8 +143,20 @@ public class LinkedList<T> {
 }
 ```
 
+
 * Recursion stays inside `LinkedList`
 * Useful when node classes cannot be modified
+
+---
+## Comparison of Approaches
+
+When working with linked structures and recursion, there are multiple valid design approaches. The main difference is **where the recursion lives** and **who controls traversal**.
+
+| Approach                    | Where recursion lives         | Who controls traversal | Pros                                                               | Cons                                                     |
+| --------------------------- | ----------------------------- | ---------------------- | ------------------------------------------------------------------ | -------------------------------------------------------- |
+| **Node-based recursion**    | `LinearNode`                  | Each node              | Very elegant, mirrors data structure, minimal code in `LinkedList` | Requires modifying node class, logic spread across nodes |
+| **Helper-method recursion** | `LinkedList` (private helper) | The list               | Keeps all logic in `LinkedList`, works when nodes can’t be changed | Slightly more code, less object-oriented                 |
+| **Iterative**               | `LinkedList`                  | The list               | Fastest, no recursion overhead, constant stack space               | More verbose, less natural for recursive structures      |
 
 ---
 
@@ -221,18 +233,6 @@ public int fib(int n) {
 | Performance | Slower                   | Faster          |
 | Memory      | More (stack)             | Less            |
 | Best for    | Trees, linked structures | Linear problems |
-
----
-
-## Comparison of Approaches
-
-When working with linked structures and recursion, there are multiple valid design approaches. The main difference is **where the recursion lives** and **who controls traversal**.
-
-| Approach                    | Where recursion lives         | Who controls traversal | Pros                                                               | Cons                                                     |
-| --------------------------- | ----------------------------- | ---------------------- | ------------------------------------------------------------------ | -------------------------------------------------------- |
-| **Node-based recursion**    | `LinearNode`                  | Each node              | Very elegant, mirrors data structure, minimal code in `LinkedList` | Requires modifying node class, logic spread across nodes |
-| **Helper-method recursion** | `LinkedList` (private helper) | The list               | Keeps all logic in `LinkedList`, works when nodes can’t be changed | Slightly more code, less object-oriented                 |
-| **Iterative**               | `LinkedList`                  | The list               | Fastest, no recursion overhead, constant stack space               | More verbose, less natural for recursive structures      |
 
 ---
 
