@@ -60,6 +60,7 @@ public LinearNode<T> copy() {
 }
 
 //Changing code in LinkedList class
+
 /*how the LinkedList class changes once the recursive logic is moved into the node (LinearNode) class. 
 The key idea is delegation: the list itself only manages the entry point (front), and the nodes handle 
 the recursive work.*/
@@ -101,6 +102,7 @@ public class LinkedList<T>{
 }
 
 //Example: Tower of Hanoi
+
 private void moveTower(int numDisks, int start, int end, int temp) { //numDisks → number of disks to move | start → source peg | end → destination peg | temp → temporary (auxiliary) peg
   if (numDisks == 1) moveOneDisk(start, end); //If only one disk, move it directly from start to end (recursion stops)
   else {
@@ -119,6 +121,7 @@ executions of moveTower(), and then even on the base case, we make one moveOneDi
 
 //Example: Fibonacci Numbers
 //(Inefficient solution) - like towers of Hanoi, its doubly recursive- O(2ⁿ)
+
 public int fib(int n) { //Calculate nth Fibonacci number
   if (n == 0 || n == 1) return 1; //Base Case
   else return fib(n - 1) + fib(n - 2);
