@@ -43,7 +43,7 @@ contents = `(T[]) new Object[maxSize];           // works but unsafe`
 contents = `(T[]) Array.newInstance(Object.class, maxSize); // slightly safer`
 
 
--** Best practice: **pass Class<T> to constructor and use Array.newInstance(clazz, maxSize) → safe, no warnings
+-**Best practice:** pass Class<T> to constructor and use Array.newInstance(clazz, maxSize) → safe, no warnings
 
 #### ArraySet<T> & ArrayIterator<T>
 #### What it is
