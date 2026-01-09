@@ -25,14 +25,14 @@ a[0][1] = 5;
 ```
 Assigns values row by row, column by column.
 
-### 📌 Initialization Shortcut
+### 📌 Initialisation Shortcut
 ```java
 int[][] c = {
     {1, 5, 1, 4}, 
     {6, 0, 3, 2}
 }; // 2 rows, 4 columns
 ```
-Directly initializes array with values.
+Directly initialises array with values.
 
 ### 📌 Getting Dimensions
 ```java
