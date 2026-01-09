@@ -1,4 +1,4 @@
-//2D Arrays (example aze for traversal)
+//2D Arrays (example Maze for traversal)
 
 int[][] a; //Memory-wise, a lives on the stack, but the actual array (all the 12 integer cells) is allocated on the heap.
 a = new int [3][4]; //3 rows, 4 columns, 12 cells, a is int[][] → holds integers
