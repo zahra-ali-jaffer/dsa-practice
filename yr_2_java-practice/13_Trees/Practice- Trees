@@ -151,6 +151,6 @@ public class NaryTreeNode<T> { //Represents one node in an N-ary tree
 			throw new IllegalStateException("addChild: already at max children!"); //Enforces the N-ary tree constraint
 
 		children[numChildren] = child; //Child is added to the next free slot
-		numChildren++: //numChildren is incremented
+		numChildren++: //numChildren is incremented 
 	}
 }
