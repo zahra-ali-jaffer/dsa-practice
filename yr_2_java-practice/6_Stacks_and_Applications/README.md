@@ -4,7 +4,7 @@ This repository contains examples and explanations of **2D arrays**, **stack imp
 
 ---
 
-##  2D Arrays
+##  2D Arrays 
 
 ### 📌 Declaration & Memory
 ```java
