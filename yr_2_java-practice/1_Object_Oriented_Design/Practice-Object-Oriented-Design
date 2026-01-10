@@ -1,7 +1,7 @@
 //Abstract class - Model ownable from the UML Diagram
 
 public abstract class Ownable {
-  private Person owner;  // Attribute: link to a Person (the owner)
+  private Person owner;  // Attribute: link to a Person (the owner) 
   public Ownable() {/*...*/} //Constructor
   public String getOwnerTel() {return owner.getTel();} // Delegates to Person to get the phone number
   public void changeOwner (Person newOwner) {/*...*/} // Method to update the owner
