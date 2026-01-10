@@ -1,4 +1,4 @@
-//Improving code(unit 5 - Person class- Self referential object)
+//Improving code(unit 5 - Person class - Self referential object)
 //Making it doubly-linked
 
 public enum Gender { male, female, other; }
