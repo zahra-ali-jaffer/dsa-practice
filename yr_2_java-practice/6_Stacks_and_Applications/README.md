@@ -12,7 +12,7 @@ int[][] a;                 // Reference stored on stack
 a = new int[3][4];         // 3 rows, 4 columns, 12 integer cells on heap
 double[][] b = new double[10][10]; // 10x10 grid, floating-point numbers
 ```
-
+ 
 **Notes:**
 - `a` and `b` are references on the stack
 - Actual arrays are allocated on the heap
