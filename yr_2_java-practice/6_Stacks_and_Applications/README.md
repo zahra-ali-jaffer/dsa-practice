@@ -83,10 +83,10 @@ Traversal algorithms like DFS/BFS iterate through `array[row][col]`.
 
 ##  Stacks in Java
 
-### 📌 `java.util.Stack`
+###  `java.util.Stack`
 Part of JDK, not JCF. Extends `Vector`, which has extra features making it less ideal for pure stack modeling.
 
-### 📌 Wrapper for a Pure Stack
+###  Wrapper for a Pure Stack
 ```java
 import java.util.Stack;
 
