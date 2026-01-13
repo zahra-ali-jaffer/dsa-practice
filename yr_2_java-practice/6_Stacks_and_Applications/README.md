@@ -1,6 +1,6 @@
 # 2D Arrays & Stack Concepts in Java  
 
-This repository contains examples and explanations of **2D arrays**, **stack implementations**, and their use in **maze traversal** in Java. The goal is to understand **memory, array operations, and stack structures**.
+This file contains examples and explanations of **2D arrays**, **stack implementations**, and their use in **maze traversal** in Java. The goal is to understand **memory, array operations, and stack structures**.
 
 ---
 
