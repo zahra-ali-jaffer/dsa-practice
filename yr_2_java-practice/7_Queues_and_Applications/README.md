@@ -1,6 +1,6 @@
 # Queues & Priority Queues in Java
 
-This repository contains notes, explanations, and implementations of **queue data structures** in Java, based on array-based, linked, circular, and priority queue designs. It also connects these implementations to the **Java Collections Framework (JCF)** and discusses **time complexity trade-offs**.
+This file contains notes, explanations, and implementations of **queue data structures** in Java, based on array-based, linked, circular, and priority queue designs. It also connects these implementations to the **Java Collections Framework (JCF)** and discusses **time complexity trade-offs**.
 
 ---
 
