@@ -101,7 +101,7 @@ public class PureStack<T> {
 ```
 Wraps `Stack` to expose only LIFO operations, hiding extra `Vector` methods.
 
-### 📌 `ArrayDeque` as Stack Alternative
+###  `ArrayDeque` as Stack Alternative
 ```java
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -117,7 +117,7 @@ stack.peek();
 
 ---
 
-## 📝 References & Notes
+##  References & Notes
 
 - Stack references live on the stack, actual elements on the heap
 - 2D arrays map naturally to grid-based problems like mazes, game boards, or matrices
