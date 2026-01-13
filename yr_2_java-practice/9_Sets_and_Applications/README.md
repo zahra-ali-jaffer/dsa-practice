@@ -1,6 +1,6 @@
 # Java Sets and Bingo Simulation
 
-This repository contains explanations, code examples, and discussions on **sets in Java**, including custom implementations and their usage in a Bingo simulation. It also covers the **Java Collections Framework (JCF) Set interfaces and classes**.
+This file contains explanations, code examples, and discussions on **sets in Java**, including custom implementations and their usage in a Bingo simulation. It also covers the **Java Collections Framework (JCF) Set interfaces and classes**.
 
 ---
 
