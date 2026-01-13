@@ -1,6 +1,6 @@
 # Hash Tables and Java Collections Framework (JCF)
 
-This repository contains a comprehensive overview of **hash tables, hash functions, collisions, chaining, Java specifics, load factor, resizing, String hashing, and Java Collections Framework classes**.  
+This file contains a comprehensive overview of **hash tables, hash functions, collisions, chaining, Java specifics, load factor, resizing, String hashing, and Java Collections Framework classes**.  
 It also includes explanations of common **doubts and pitfalls** encountered when learning hash tables in Java.
 
 ---
