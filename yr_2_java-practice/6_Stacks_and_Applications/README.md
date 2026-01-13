@@ -6,7 +6,7 @@ This file contains examples and explanations of **2D arrays**, **stack implement
 
 ##  2D Arrays 
 
-### 📌 Declaration & Memory
+###  Declaration & Memory
 ```java
 int[][] a;                 // Reference stored on stack
 a = new int[3][4];         // 3 rows, 4 columns, 12 integer cells on heap
@@ -18,14 +18,14 @@ double[][] b = new double[10][10]; // 10x10 grid, floating-point numbers
 - Actual arrays are allocated on the heap
 - `int[][]` stores integers, `double[][]` stores decimals
 
-### 📌 Assigning Values
+###  Assigning Values
 ```java
 a[0][0] = 1; 
 a[0][1] = 5;
 ```
 Assigns values row by row, column by column.
 
-### 📌 Initialisation Shortcut
+###  Initialisation Shortcut
 ```java
 int[][] c = {
     {1, 5, 1, 4}, 
@@ -34,13 +34,13 @@ int[][] c = {
 ```
 Directly initialises array with values.
 
-### 📌 Getting Dimensions
+###  Getting Dimensions
 ```java
 c.length      // Number of rows → 2
 c[0].length   // Number of columns → 4
 ```
 
-### 📌 Looping Through a 2D Array
+###  Looping Through a 2D Array
 
 **Traditional nested loops:**
 ```java
