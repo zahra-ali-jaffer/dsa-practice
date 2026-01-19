@@ -10,7 +10,7 @@ public class Solution {
   public List<String> decode(String str) {
     List<String> res = new ArrayList<>();
     int i = 0;
-    while (i < strilength()) {
+    while (i < str.length()) {
       int j = i;
       while (str.charAt(j) != '#'){
         j++;
