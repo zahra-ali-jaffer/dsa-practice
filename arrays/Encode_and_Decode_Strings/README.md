@@ -1,6 +1,6 @@
 # Encode and Decode Strings
 
-This project implements an algorithm in Java to **encode** a list of strings into a single string and **decode** it back to the original list. This is a common interview problem (LeetCode: *Encode and Decode Strings*) and is useful in scenarios like network transmission or data serialization.
+This project implements an algorithm in Java to **encode** a list of strings into a single string and **decode** it back to the original list. This is a common interview problem (LeetCode: *Encode and Decode Strings*) and is useful in scenarios like network transmission or data serialisation.
 
 The idea is to safely convert a list of strings into one string so it can be sent over the network, then reconstructed without any data loss.
 
