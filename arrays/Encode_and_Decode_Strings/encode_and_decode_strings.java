@@ -18,7 +18,7 @@ public class Solution {
       int length = Integer.parseInt(str.substring(i, j));
       i = j + 1;
       j = i + length;
-      res.add(strs.substring(i, j));
+      res.add(str.substring(i, j));
       i = j;
     }
     return res;
