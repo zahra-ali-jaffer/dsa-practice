@@ -34,7 +34,7 @@ Division breaks when zero is involved, so we track them carefully.
 
 ---
 
-## 🔍 Step-by-Step Breakdown
+##  Step-by-Step Breakdown
 
 ### ###  Variable Setup
 
