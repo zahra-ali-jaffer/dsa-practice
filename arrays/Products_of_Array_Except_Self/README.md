@@ -1,53 +1,48 @@
-##  Problem Recap
+## Problem Recap
 
-You’re given an array `nums`.
-
-You must return a new array `res` where:
+Given an array `nums`, return an array `res` where:
 
 [
 res[i] = \text{product of all elements in nums except nums[i]}
 ]
 
 Example:
-`[1, 2, 4, 6]` →
-
-* For index 0 → 2×4×6 = **48**
-* For index 1 → 1×4×6 = **24**
-* etc.
+`[1, 2, 4, 6]` → `[48, 24, 12, 8]`
 
 ---
 
-##  Key Challenge
+## Core Difficulty
 
-You **cannot use division** in the optimal version, but **the solution *does* use division** (still valid logically, just not the follow-up constraint).
+Division normally makes this easy:
 
-Main issue to handle: **zeros**
-Division breaks when zero is involved, so we track them carefully.
+[
+res[i] = \frac{\text{total product}}{nums[i]}
+]
 
----
-
-## The Code — High-Level Idea
-
-1. Compute the product of all **non-zero** numbers.
-2. Count how many zeros exist.
-3. Use different logic depending on zero count.
+But zeros break this logic. Your solution is built entirely around handling zeros safely.
 
 ---
 
-##  Step-by-Step Breakdown
+## High Level Strategy
 
-### ###  Variable Setup
+1. Compute the product of all **non-zero** elements.
+2. Count how many zeros are present.
+3. Use different formulas depending on the number of zeros.
+
+---
+
+## Step 1: Variable Initialization
 
 ```java
 int prod = 1, zeroCount = 0;
 ```
 
-* `prod` → product of all **non-zero** elements
-* `zeroCount` → how many zeros are in the array
+* `prod` stores the product of all non-zero elements.
+* `zeroCount` counts how many zeros appear in the array.
 
 ---
 
-### ###  First Loop — Calculate Product & Count Zeros
+## Step 2: First Pass Through the Array
 
 ```java
 for (int num : nums) {
@@ -59,20 +54,24 @@ for (int num : nums) {
 }
 ```
 
-We scan the array once.
+Two things happen in one pass:
 
-#### Case A: `num != 0`
+### When `num != 0`
 
-Multiply into `prod`.
+We multiply it into `prod`.
 
-#### Case B: `num == 0`
+### When `num == 0`
 
-We **don’t multiply** (would make product 0 forever).
-Instead, just increment `zeroCount`.
+We do not multiply, because that would make the product permanently zero. Instead, we just count it.
+
+After this loop:
+
+* `prod` = product of all non-zero numbers
+* `zeroCount` = number of zeros in the array
 
 ---
 
-### ###  If More Than One Zero
+## Step 3: Case of More Than One Zero
 
 ```java
 if (zeroCount > 1) {
@@ -80,27 +79,25 @@ if (zeroCount > 1) {
 }
 ```
 
-If there are **2 or more zeros**, every product except self will include at least one zero.
+If there are 2 or more zeros:
 
-Example: `[1, 0, 3, 0]`
+For any index you remove, at least one zero remains in the multiplication. So every result is 0.
 
-Any index you remove, at least one zero remains → product = **0**.
-
-So we return an array of default `0`s.
+A new `int` array is automatically filled with zeros, which is correct.
 
 ---
 
-### ###  Create Result Array
+## Step 4: Create Result Array
 
 ```java
 int[] res = new int[nums.length];
 ```
 
-This will store the final answers.
+This will store the final answer.
 
 ---
 
-### ###  Second Loop — Fill Result
+## Step 5: Second Pass to Fill Results
 
 ```java
 for (int i = 0; i < nums.length; i++) {
@@ -112,76 +109,49 @@ for (int i = 0; i < nums.length; i++) {
 }
 ```
 
-We now handle **two big scenarios**:
+Now we handle two main scenarios.
 
 ---
 
-###  Case 1: There is **one zero**
+## Scenario A: Exactly One Zero
 
-```java
-if (zeroCount > 0)
-```
+`zeroCount > 0` and we already handled the case where it is greater than 1.
 
-Only one index can have a non-zero result — the index where the zero is.
+So there is exactly one zero.
 
-#### If current element is zero:
+### If current element is the zero
 
 ```java
 res[i] = prod;
 ```
 
-Why?
-Because for that index, we multiply **all non-zero elements**.
+Since `prod` contains all non-zero elements, this is the correct product except self.
 
-Example: `[1, 2, 0, 4]`
-Product of non-zero = `1×2×4 = 8`
-So output = `[0, 0, 8, 0]`
-
-#### If current element is not zero:
+### If current element is not zero
 
 ```java
 res[i] = 0;
 ```
 
-Because the product except self includes that one zero.
+Because the product except self includes the single zero in the array.
 
 ---
 
-###  Case 2: **No zeros**
+## Scenario B: No Zeros
 
 ```java
-else {
-    res[i] = prod / nums[i];
-}
+res[i] = prod / nums[i];
 ```
 
-Now division works safely.
+Now division is safe.
 
-We already have:
+`prod` is the product of all elements in the array.
 
-[
-prod = nums[0] \times nums[1] \times ... \times nums[n-1]
-]
-
-So:
-
-[
-res[i] = \frac{prod}{nums[i]}
-]
-
-Example: `[1, 2, 4, 6]`
-Total product = 48
-
-| i | nums[i] | res[i] = 48 / nums[i] |
-| - | ------- | --------------------- |
-| 0 | 1       | 48                    |
-| 1 | 2       | 24                    |
-| 2 | 4       | 12                    |
-| 3 | 6       | 8                     |
+Dividing by `nums[i]` removes the contribution of the current element, leaving the product of all others.
 
 ---
 
-### ###  Return Result
+## Step 6: Return
 
 ```java
 return res;
@@ -189,34 +159,30 @@ return res;
 
 ---
 
-##  Time & Space Complexity
+## Complexity
 
-| Metric | Value                                   |
-| ------ | --------------------------------------- |
-| Time   | **O(n)** (two passes through array)     |
-| Space  | **O(1)** extra (excluding output array) |
+Time complexity: O(n)
+Two linear passes.
 
----
-
-##  Why This Doesn't Meet the Follow-Up
-
-You used:
-
-```java
-res[i] = prod / nums[i];
-```
-
-The follow-up requires **no division**, which is solved using **prefix and suffix products** instead.
+Space complexity: O(1) extra space
+Only a few variables are used besides the output array.
 
 ---
 
-##  Summary
+## Why This Is Not the Follow-Up Solution
 
-The solution:
+The follow-up explicitly forbids division. This solution relies on division when there are no zeros, so it does not satisfy that constraint.
 
-* Handles zeros (the tricky part)
-* Avoids division errors
-* Works in O(n) time
-* Uses constant extra space
+The division-free approach uses prefix and suffix products instead.
 
+---
 
+## Final Understanding
+
+This solution works because it separates the problem into three mathematical cases:
+
+1. More than one zero → all outputs are zero
+2. Exactly one zero → only that position gets the product of non-zero elements
+3. No zeros → use total product divided by current element
+
+That is the entire logic of the algorithm.
