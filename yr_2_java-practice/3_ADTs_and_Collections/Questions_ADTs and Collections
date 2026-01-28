@@ -1,6 +1,73 @@
 //Question 1 - Array Stack (Bounded)- Write a generic class ArrayStack<T> that implements StackADT<T> using an array.
 
+//Answer 1:
+public class ArrayStack<T> implements StackADT<T>, Bounded {
+  private T[] stack;
+  private int top;
+
+  public ArrayStack(int capacity) {
+    stack = (T[]) new Object[capacity];
+    top = 0;
+  }
+
+  public void push (T element) {
+    if (isFull()) throw new IllegalStateException("Stack is full!");
+    stack[top++] = element;
+  }
+
+public T pop() {
+    if (isEmpty()) throw new IllegalStateException("Stack is empty!");
+    T item = stack[--top];
+    stack[top] = null;
+    return item;
+}
+
+public T peek() {
+  if (isEmpty()) throw new IllegalStateException("Stack is empty");
+  return stack[top - 1];
+}
+
+public boolean isEmpty(){ return top == 0; }
+public int size() { return top; }
+public boolean isFull() { return top == stack.length; }
+public int capacity() { return stack.length; }
+}
+
+
 //Question 2 - Linked Stack (Unbounded) - Implement LinkedStack<T> using a singly linked list.
+
+//Answer 2:
+
+public class LinkedStack<T> implements StackADT<T>{
+  private Node<T> top;
+  private int size;
+
+  private static class Node<T>{
+    T data;
+    Node<T> next;
+    Node (T data, Node<T> next) {
+      this.data = data;
+      this.next = next;
+    }
+  }
+    public void push(T element){
+    top = new Node<>(element, top);
+    size++;
+  }
+  public T pop() {
+    if (isEmpty()) throw new IllegalStateException("Stack empty");
+    T item = top.data;
+    top = top.next;
+    size--;
+    return item;
+  }
+  public T peek(){
+    if (isEmpty()) throw new IllegalStateException("Stack empty");
+    return top.data;
+  }
+  public boolean isEmpty(){ return size == 0; }
+  public int size() { return size; }
+}
 
 //Question 3 - Trace Question - Trace stack contents after:
 
