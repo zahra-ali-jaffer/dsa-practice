@@ -76,6 +76,16 @@ pop();
 push(40);
 peek();*/
 
+//Answer 3:
+/**push(10) → [10]
+push(20) → [20,10]
+push(30) → [30,20,10]
+pop()    → [20,10]
+push(40) → [40,20,10]
+peek()   → 40
+
+Final stack (top → bottom): 40, 20, 10*/
+
 //Question 4 - Modify pop() so it throws IllegalStateException when stack is empty.
 
 //Question 5 - Interface - Write the interface QueueADT<T>.
