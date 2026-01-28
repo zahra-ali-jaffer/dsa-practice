@@ -88,9 +88,30 @@ Final stack (top → bottom): 40, 20, 10*/
 
 //Question 4 - Modify pop() so it throws IllegalStateException when stack is empty.
 
+//Answer 4:
+public T pop() {
+  if (isEmpty()) throw new IllegalStateException("Stack empty");
+  T item = top.data;
+  top = top.next;
+  size--;
+  return item;
+}
+
 //Question 5 - Interface - Write the interface QueueADT<T>.
 
+//Answer 5:
+public interface QueueADT<T>{
+  void enqueue(T element);
+  T dequeue();
+  T first();
+  boolean isEmpty();
+  int size();
+}
+
 //Question 6 - Circular Array Queue - Implement a bounded queue using a circular array.
+
+//Answer 6:
+
 
 //Question 7 - Linked Queue -Write a class LinkedQueue<T> using front and rear pointers.
 
