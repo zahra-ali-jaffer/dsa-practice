@@ -1,0 +1,50 @@
+//Question 1:
+//Identify Complexity
+
+for(int i=0;i<n;i++)
+   System.out.println(i);
+
+//Answer 1:
+
+
+//Question 2:
+//Nested Loops
+for(int i=0;i<n;i++)
+  for(int j=0;j<n;j++)
+     sum++;
+
+//Answer 2:
+
+//Question 3:
+//Logarithmic
+for(int i=1;i<n;i*=2)
+   System.out.println(i);
+
+//Answer 3:
+
+
+//Question 4:
+//Define worst-case time complexity.
+
+//Answer 4:
+
+
+//Question 5:
+//Order from smallest to largest:
+O(n log n), O(1), O(n²), O(log n), O(n)
+
+//Answer 5:
+
+//Question 6:
+//Which grows faster: 𝑛^2 or 2𝑛
+
+//Answer 6:
+
+
+
+
+
+
+
+
+? Explain.
