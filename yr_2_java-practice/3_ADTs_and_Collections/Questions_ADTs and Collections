@@ -1,52 +1,48 @@
-//Question 1 - Array Stack (Bounded)
+//Question 1 - Array Stack (Bounded)- Write a generic class ArrayStack<T> that implements StackADT<T> using an array.
 
-//Question 2 -Write a generic class ArrayStack<T> that implements StackADT<T> using an array.
+//Question 2 - Linked Stack (Unbounded) - Implement LinkedStack<T> using a singly linked list.
 
-//Question 3 - Linked Stack (Unbounded)
-
-//Question 4 - Implement LinkedStack<T> using a singly linked list.
-
-//Question 5 - Trace Question
-
-//Question 6 - Trace stack contents after:
+//Question 3 - Trace Question - Trace stack contents after:
 
 /*push(10); push(20); push(30);
 pop();
 push(40);
 peek();*/
 
-//Question 7 - Modify pop() so it throws IllegalStateException when stack is empty.
+//Question 4 - Modify pop() so it throws IllegalStateException when stack is empty.
 
-//Question 8 - Interface - Write the interface QueueADT<T>.
+//Question 5 - Interface - Write the interface QueueADT<T>.
 
-//Question 9 - Circular Array Queue - Implement a bounded queue using a circular array.
+//Question 6 - Circular Array Queue - Implement a bounded queue using a circular array.
 
-//Question 10 - Linked Queue -Write a class LinkedQueue<T> using front and rear pointers.
+//Question 7 - Linked Queue -Write a class LinkedQueue<T> using front and rear pointers.
 
+//Question 8 - Explain why a supermarket checkout is modeled by a queue rather than a stack.
 
-//Question 11 - Explain why a supermarket checkout is modeled by a queue rather than a stack.
+//Question 9 - Node Class - Write a generic Node<T> class for a singly linked list.
 
-//Question 12 - Node Class - Write a generic Node<T> class for a singly linked list.
+//Question 10 - Doubly Linked Node - Write a node class with prev and next.
 
-//Question 13 - Doubly Linked Node - Write a node class with prev and next.
-
-//Question 14 - Method Writing
+//Question 11 - Method Writing
 //In DoublyLinkedList<T> write:
 
 /*public void addLast(T element)*/
 
-//Question 15 - Write addFirst(T element).
+//Question 12 - Write addFirst(T element).
 
-//Question 16 - Write removeFirst() that throws exception if empty.
+//Question 13 - Write removeFirst() that throws exception if empty.
 
-//Question 17 - Write a traversal method that prints elements from head to tail.
+//Question 14 - Write a traversal method that prints elements from head to tail.
 
-//Question 18 - ADT vs Data Structure - Explain the difference and give one example of each.
+//Question 15 - ADT vs Data Structure - Explain the difference and give one example of each.
 
-//Question 19 - Bounded vs Unbounded - Give one Java example of each and explain.
+//Question 16 - Bounded vs Unbounded - Give one Java example of each and explain.
 
-//Question 20 - Exception Scenario - Why must removing from an empty collection throw an exception?
+//Question 17 - Exception Scenario - Why must removing from an empty collection throw an exception?
 
-//Question 21 - Write a method that reverses a stack using only stack operations.
+//Question 18 - Write a method that reverses a stack using only stack operations.
 
-//Question 22 - Implement a queue using two stacks
+//Question 19 - Implement a queue using two stacks
+
+
+
