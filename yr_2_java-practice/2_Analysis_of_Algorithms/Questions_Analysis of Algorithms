@@ -5,7 +5,7 @@ for(int i=0;i<n;i++)
    System.out.println(i);
 
 //Answer 1:
-
+/*O(n) - single loop*/
 
 //Question 2:
 //Nested Loops
@@ -14,6 +14,7 @@ for(int i=0;i<n;i++)
      sum++;
 
 //Answer 2:
+/*O(n^2) - nested loop*/
 
 //Question 3:
 //Logarithmic
@@ -21,25 +22,26 @@ for(int i=1;i<n;i*=2)
    System.out.println(i);
 
 //Answer 3:
-
+/*O(log n) - logarthmic loop (Doubling each time)*/
 
 //Question 4:
 //Define worst-case time complexity.
 
 //Answer 4:
-
+/*The maximum time an algorithm may take over all inputs of size n. Used for guarantees.*/
 
 //Question 5:
 //Order from smallest to largest:
 O(n log n), O(1), O(n²), O(log n), O(n)
 
 //Answer 5:
+/*O(1) < O(log n) <  O(n) < O(n log n) < O(n^2)*/
 
 //Question 6:
 //Which grows faster: 𝑛^2 or 2𝑛
 
 //Answer 6:
-
+/*2n grows faster than n^2 (exponential vs polynomial).*/
 
 
 
