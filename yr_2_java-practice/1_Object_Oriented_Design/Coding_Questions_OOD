@@ -1,0 +1,128 @@
+//Question 1:
+//Write the complete Java code for a generic interface StackADT<T> representing an unbounded stack ADT with proper comments.
+
+//Answer 1:
+
+package dsaj;
+/**
+  * Defines the interface to a stack data structure
+  */
+public interface StackADT<T> {
+
+  /**Adds one element to the top of the stack.*/
+  public void push(T element);
+
+  /** Removes and returns the top element from the stack*/
+  public T pop();
+
+  /**Returns the top element of the stack without removing it.*/
+  public T peek();
+
+  /**returns true if the stack contains no elements.*/
+  public boolean isEmpty();
+
+  /**Returns the number of elements in a stack*/
+  public int size();
+}
+
+//Question 2:
+/**Define a generic interface BoundedStackADT<T> that extends StackADT<T> and adds:
+- isFull()
+- capacity()*/
+
+//Answer 2:
+
+package dsaj;
+public interface BoundedStackADT<T> extends StackADT<T> {
+  public boolean isFull();
+  public int capacity();
+}
+
+//Question 3:
+//Write a separate interface Bounded for any bounded collection. Then write the class header of a stack class that implements both StackADT<T> and Bounded.
+
+//Answer 3:
+
+package dsaj;
+
+public interface Bounded {
+  public boolean isFull();
+  public int capacity();
+}
+
+/*Class Header*/
+public class ArrayStack<T> implements StackADT<T>, Bounded
+
+//Question 4:
+//Explain why a Java interface is a good way to model an ADT. Then write a short interface for a Queue ADT.
+
+//Answer 4:
+/* An ADT specifies what operations are available, but not how they are implemented. Java interfaces
+define method signatures without implementation, which supports abstraction*/
+
+//Queue Interface
+public interface QueueADT<T> {
+  public void enqueue(T element);
+  public T dequeue();
+  public T first();
+  public boolean isEmpty();
+  public int size();
+}
+
+//Question 5:
+//Fill in the blanks
+
+//Answer 5:
+/*
+import _java.util_.ArrayList;
+import _java.util_.LinkedList;
+import _java.util_.HashSet;
+import _java.util_.Map;
+*/
+
+//Question 6:
+//Object Creation
+
+//Answer 6:
+/*
+List<String> list = new ___ArrayList_______<>();
+Set<Integer> set = new ___HashSet_______<>();
+Map<String,Integer> map = new ___HashMap_______<>();
+*/
+
+//Question 7:
+//Iterator Use
+
+//Answer 7:
+/*
+Iterator<String> it = list.__iterator______();
+while(it.__hasNext______()) {
+    System.out.println(it.__next______());
+}
+*/
+
+//Question 8:
+//Why can an Iterator remove elements but an Enumeration cannot?
+
+//Answer 8:
+/*Iterator supports removal (remove() method). Enumeration is read-only. 
+This fits the abstraction and flexibility of collections.*/
+
+//Question 9:
+//Design an interface for a List ADT.
+
+//Answer 9:
+public interface ListADT<T> {
+  public void add(T element);
+  public void remove(T element);
+  public boolean contains(T element);
+  public boolean isEmpty();
+  public int size();
+}
+
+//Question 10:
+//Why can we replace an ArrayList with a LinkedList without changing the rest of the program (if coded to the interface)?
+
+//Answer 10:
+/*Because both implement the List interface. Code depends on abstraction, not implementation.*/
+
