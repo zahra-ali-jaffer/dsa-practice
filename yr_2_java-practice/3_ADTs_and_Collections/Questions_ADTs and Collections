@@ -15,22 +15,22 @@ public class ArrayStack<T> implements StackADT<T>, Bounded {
     stack[top++] = element;
   }
 
-public T pop() {
+  public T pop() {
     if (isEmpty()) throw new IllegalStateException("Stack is empty!");
     T item = stack[--top];
     stack[top] = null;
     return item;
-}
+  }
 
-public T peek() {
-  if (isEmpty()) throw new IllegalStateException("Stack is empty");
-  return stack[top - 1];
-}
+  public T peek() {
+    if (isEmpty()) throw new IllegalStateException("Stack is empty");
+    return stack[top - 1];
+  }
 
-public boolean isEmpty(){ return top == 0; }
-public int size() { return top; }
-public boolean isFull() { return top == stack.length; }
-public int capacity() { return stack.length; }
+  public boolean isEmpty(){ return top == 0; }
+  public int size() { return top; }
+  public boolean isFull() { return top == stack.length; }
+  public int capacity() { return stack.length; }
 }
 
 
@@ -111,15 +111,101 @@ public interface QueueADT<T>{
 //Question 6 - Circular Array Queue - Implement a bounded queue using a circular array.
 
 //Answer 6:
+private class CircularArrayQueue<T> implements QueueADT<T>, Bounded {
 
+  private T[] queue;
+  private int front = 0, rear = 0, size = 0;
+
+  public CircularArrayQueue(int capacity) {
+    queue = (T[]) new Object[capacity];
+  }
+  public void enqueue(T element) {
+    if (isFull()) throw new IllegalStateException("Queue full");
+    queue[rear] = element;
+    rear = (rear + 1) % queue.length;
+    size++;
+  }
+  public T dequeue(){
+    if (isEmpty()) throw new IllegalStateException("Queue empty");
+    T item = queue[front];
+    queue[front] = null;
+    front = (front + 1) % queue.length;
+    size--;
+    return item;
+  }
+  public T first() {
+    if (isEmpty()) throw new IllegalStateException("Queue empty");
+    return queue[front];
+  }
+  public boolean isEmpty() {return size == 0;}
+  public int size() { return size; }
+  public boolean isFull() { return size == queue.length; }
+  public int capacity() { return queue.length; }
+}
 
 //Question 7 - Linked Queue -Write a class LinkedQueue<T> using front and rear pointers.
 
+//Answer 7:
+public class LinkedQueue<T> implements QueueADT<T> {
+
+    private Node<T> front, rear;
+    private int size;
+
+    private static class Node<T> {
+        T data;
+        Node<T> next;
+        Node(T data) { this.data = data; }
+    }
+
+    public void enqueue(T element) {
+        Node<T> newNode = new Node<>(element);
+        if (isEmpty()) front = newNode;
+        else rear.next = newNode;
+        rear = newNode;
+        size++;
+    }
+
+    public T dequeue() {
+        if (isEmpty()) throw new IllegalStateException("Queue empty");
+        T item = front.data;
+        front = front.next;
+        if (front == null) rear = null;
+        size--;
+        return item;
+    }
+
+    public T first() {
+        if (isEmpty()) throw new IllegalStateException("Queue empty");
+        return front.data;
+    }
+
+    public boolean isEmpty() { return size == 0; }
+    public int size() { return size; }
+}
+
 //Question 8 - Explain why a supermarket checkout is modeled by a queue rather than a stack.
+
+//Answer 8:
+/*Because customers are served first-come, first-served (FIFO). A stack is LIFO, which would serve 
+the last customer first.*/
 
 //Question 9 - Node Class - Write a generic Node<T> class for a singly linked list.
 
+//Answer 9:
+class Node<T> {
+  T data;
+  Node<T> next;
+  Node(T data) { this.data = data; }
+}
+
 //Question 10 - Doubly Linked Node - Write a node class with prev and next.
+
+//Answer 10:
+class DNode<T> {
+  T data;
+  DNode<T> next, prev;
+  DNode(T data){ this.data = data; }
+}
 
 //Question 11 - Method Writing
 //In DoublyLinkedList<T> write:
