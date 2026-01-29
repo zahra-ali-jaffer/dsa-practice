@@ -212,21 +212,133 @@ class DNode<T> {
 
 /*public void addLast(T element)*/
 
+public void addLast(T element) {
+    DNode<T> newNode = new DNode<>(element);
+
+    if (size == 0) {
+        head = tail = newNode;
+    } else {
+        tail.next = newNode;
+        newNode.prev = tail;
+        tail = newNode;
+    }
+    size++;
+}
+
 //Question 12 - Write addFirst(T element).
+
+//Answer 12:
+public void addFirst(T element) {
+    DNode<T> newNode = new DNode<>(element);
+
+    if (size == 0) {
+        head = tail = newNode;
+    } else {
+        newNode.next = head;
+        head.prev = newNode;
+        head = newNode;
+    }
+    size++;
+}
+
 
 //Question 13 - Write removeFirst() that throws exception if empty.
 
+//Answer 13:
+public T removeFirst() {
+    if (size == 0) throw new IllegalStateException("List empty");
+
+    T item = head.data;
+    head = head.next;
+
+    if (head != null) head.prev = null;
+    else tail = null;
+
+    size--;
+    return item;
+}
+
+
 //Question 14 - Write a traversal method that prints elements from head to tail.
+
+//Answer 14:
+public void traverse() {
+    DNode<T> current = head;
+    while (current != null) {
+        System.out.println(current.data);
+        current = current.next;
+    }
+}
 
 //Question 15 - ADT vs Data Structure - Explain the difference and give one example of each.
 
+//Answer 15:
+/*ADT = logical model (e.g., Stack).
+Data Structure = physical implementation (array, linked list).*/
+
 //Question 16 - Bounded vs Unbounded - Give one Java example of each and explain.
+
+//Answer 16:
+/*Bounded: Array (fixed capacity)
+Unbounded: ArrayList (grows dynamically)*/
 
 //Question 17 - Exception Scenario - Why must removing from an empty collection throw an exception?
 
+//Answer 17:
+/*Removing from empty collection is an illegal state — operation cannot be performed.*/
+
 //Question 18 - Write a method that reverses a stack using only stack operations.
+
+//Answer 18:
+public static <T> void reverse(StackADT<T> stack) {
+    StackADT<T> temp = new LinkedStack<>();
+
+    while (!stack.isEmpty())
+        temp.push(stack.pop());
+
+    while (!temp.isEmpty())
+        stack.push(temp.pop());
+}
 
 //Question 19 - Implement a queue using two stacks
 
+//Answer 19:
+public class TwoStackQueue<T> implements QueueADT<T> {
+
+    private StackADT<T> inStack = new LinkedStack<>();
+    private StackADT<T> outStack = new LinkedStack<>();
+
+    public void enqueue(T element) {
+        inStack.push(element);
+    }
+
+    public T dequeue() {
+        if (isEmpty()) throw new IllegalStateException("Queue empty");
+
+        if (outStack.isEmpty())
+            while (!inStack.isEmpty())
+                outStack.push(inStack.pop());
+
+        return outStack.pop();
+    }
+
+    public T first() {
+        if (isEmpty()) throw new IllegalStateException("Queue empty");
+
+        if (outStack.isEmpty())
+            while (!inStack.isEmpty())
+                outStack.push(inStack.pop());
+
+        return outStack.peek();
+    }
+
+    public boolean isEmpty() {
+        return inStack.isEmpty() && outStack.isEmpty();
+    }
+
+    public int size() {
+        return inStack.size() + outStack.size();
+    }
+}
 
 
