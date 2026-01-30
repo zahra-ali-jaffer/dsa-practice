@@ -278,3 +278,13 @@ public class ArrayQueue<T> implements QueueADT<T>{
   }
 }
 
+//Expanding the storage capacity
+private void expandCapacity()
+{
+	T[] larger = (T[])(new Object[contents.length*2]);
+	for (int index = 0; index < contents.length; index++) {
+		larger[index] = contents[index];
+	}
+	contents = larger;
+}
+
