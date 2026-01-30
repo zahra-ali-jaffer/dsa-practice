@@ -8,7 +8,7 @@ A repository dedicated to **Data Structures and Algorithms (DSA) practice mostly
 
 ### `yr_2_java-practice/`
 
-Contains 14 Java files covering core DSA concepts and related topics learned in the second year. Each file contains **focused problems and solutions from NeetCode and LeetCode**, with explanations and Java implementations:
+Contains 14 Java files covering core DSA concepts and related topics learned in the second year. Each file contains **focused problems and solutions, as well as Practice Documentation**, with explanations and Java implementations:
 
 1. **Object_Oriented_Design** – Principles and implementation of OOP in Java.
 2. **Analysis_of_Algorithms** – Complexity analysis, Big O notation, and algorithm evaluation.
@@ -27,7 +27,7 @@ Contains 14 Java files covering core DSA concepts and related topics learned in 
 
 ### Other Folders
 
-Separate folders contain **focused problems and solutions across different DSA topics**, with more topics to be added over time. Each file includes detailed explanations and Java implementations.
+Separate folders contain **focused problems and solutions across different DSA topics, from NeetCode and LeetCode**, with more topics to be added over time. Each file includes detailed explanations and Java implementations.
 
 ---
 
