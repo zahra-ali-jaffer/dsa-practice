@@ -1,0 +1,219 @@
+//Question 1 — How do you declare and create an array of 10 integers in Java?
+
+//Answer 1:
+int[] a;
+a = new int[10];
+
+//Question 2 — Declare and create an array in one line
+
+//Answer 2:
+double[] b = new double[20];
+
+//Question 3 — Create and initialise an array using an aggregate
+
+//Answer 3:
+int[] c = {5, 2, 1, 4}; //Array aggregates can only be used at declaration time. 
+
+//Question 4 —  What are default values of array elements?
+
+//Answer 4:
+/*int → 0
+reference types → null
+`boolean` → false */
+
+//Question 5 —  How to access array length?
+
+//Answer 5:
+a.length
+
+//Question 6 —  Loop through array and add 2 to each element
+
+//Answer 4: 
+for (int i = 0; i < a.length; i++) {
+    a[i] += 2;
+}
+
+//Question 7 — Time complexity of accessing an array element
+
+//Answer 7: O(1) — direct address calculation. 
+
+//Question 8 — Time complexity of processing entire array of size n
+
+//Answer 8: O(n) — loop runs n times. 
+
+//Question 9 — Why is an array-based stack bounded?
+
+//Answer 9: Because arrays have fixed size after creation. 
+
+//Question 10 — Instance variables in ArrayStack
+
+//Answer 10:
+private T[] elems;
+private final int maxSize;
+private int currentSize;
+
+//Question 11 — push() in bounded ArrayStack
+
+//Answer 11:
+public void push(T element) {
+    if (currentSize == maxSize)
+        throw new IllegalStateException("Stack full in method push");
+
+    elems[currentSize] = element;
+    currentSize++;
+}
+
+//Question 12 — pop() in bounded ArrayStack
+
+//Answer 12:
+public T pop() {
+    if (currentSize == 0)
+        throw new IllegalStateException("Stack empty in method pop");
+
+    currentSize--;
+    return elems[currentSize];
+}
+
+//Question 13 — peek()
+
+//Answer 13:
+public T peek() {
+    if (currentSize == 0)
+        throw new IllegalStateException("Stack empty in method peek");
+
+    return elems[currentSize - 1];
+}
+
+//Question 14 — clear() method
+
+//Answer 14:
+public void clear() {
+    currentSize = 0;
+}
+
+//Question 15 — Time complexity of ArrayStack methods
+
+//Answer 15: All methods are O(1) (no loops). 
+
+//Question 16 —  How does unbounded array stack expand?
+
+//Answer 16: Create new array of double size, copy elements, replace old array. 
+
+//Question 17 — expandCapacity()
+
+//Answer 17:
+private void expandCapacity() {
+    T[] larger = (T[]) (new Object[contents.length * 2]);
+
+    for (int index = 0; index < contents.length; index++) {
+        larger[index] = contents[index];
+    }
+    contents = larger;
+}
+
+//Question 18 —  Time complexity of push in unbounded array stack
+
+//Answer 18: Worst case O(n) (when resizing occurs). 
+
+//Question 19 — enqueue() in simple array queue**
+
+//Answer 19:
+public void enqueue(T element) {
+    if (size() == queue.length)
+        throw new IllegalStateException("Queue full in enqueue");
+
+    queue[rear] = element;
+    rear++;
+}
+
+//Question 20 — dequeue() with shifting
+
+//Answer 20:
+public T dequeue() {
+    if (isEmpty())
+        throw new IllegalStateException("Queue empty in dequeue");
+
+    T result = queue[0];
+    rear--;
+
+    for (int scan = 0; scan < rear; scan++)
+        queue[scan] = queue[scan + 1];
+
+    queue[rear] = null;
+    return result;
+}
+
+//Question 21 — Time complexity of dequeue in this queue
+
+//Answer 21: O(n) due to shifting. 
+
+//Question 22 —  Why is this queue inefficient?
+
+//Answer 22: Because every dequeue requires shifting all elements. 
+
+//Question 23 — AbstractSet purpose
+
+//Answer 23: Provides common implementations like `addAll`, `removeAll`, `isSubset`, `equals` independent of underlying structure. 
+
+//Question 24 — contains() in ArraySet
+
+//Answer 24: 
+public boolean contains(T element) {
+    for (int i = 0; i < currentSize; i++) {
+        if (element.equals(contents[i]))
+            return true;
+    }
+    return false;
+}
+//Time complexity O(n). 
+
+//Question 25 — add() in ArraySet
+
+//Answer 25: 
+public boolean add(T element) {
+    if (!contains(element)) {
+        if (!isFull()) {
+            contents[currentSize] = element;
+            currentSize++;
+            return true;
+        } else {
+            throw new IllegalStateException("Set full in method add");
+        }
+    }
+    return false;
+}
+
+//Question 26 — remove() in ArraySet
+
+//Answer 26: 
+public boolean remove(T element) {
+    for (int i = 0; i < currentSize; i++) {
+        if (element.equals(contents[i])) {
+            currentSize--;
+            contents[i] = contents[currentSize];
+            return true;
+        }
+    }
+    return false;
+}
+
+//Question 27 —  intersection() complexity
+
+//Answer 27: O(n²) because loop + contains inside. 
+
+//Question 28 — ArrayIterator hasNext()
+
+//Answer 28:
+public boolean hasNext() {
+    return cursor < limit;
+}
+
+//Question 29 — next()
+
+//Answer 29:
+public T next() {
+    if (!hasNext())
+        throw new IllegalStateException("ArrayIterator: no next element");
+
+    return contents[cursor++];
+}
