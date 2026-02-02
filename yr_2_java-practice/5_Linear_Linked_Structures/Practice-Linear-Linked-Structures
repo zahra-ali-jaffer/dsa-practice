@@ -1,4 +1,4 @@
-//self-referntial object
+//Self-referntial object
 class Person {
   private String name;
   private Person mother; //the field mother would be of type Person
