@@ -5,7 +5,7 @@ This file contains notes, explanations, and implementations of **queue data stru
 ---
 
 ## Queue Fundamentals
-
+ 
 A **queue** follows **FIFO (First-In, First-Out)** ordering:
 
 * Elements are added at the **rear** (`enqueue`)
