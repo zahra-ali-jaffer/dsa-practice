@@ -1,7 +1,7 @@
 //Question 1 — How do you declare and create an array of 10 integers in Java?
 
 //Answer 1:
-int[] a;
+int[] a; 
 a = new int[10];
 
 //Question 2 — Declare and create an array in one line
