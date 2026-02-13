@@ -33,3 +33,14 @@ interface.
 public class SortingAndSearching<T extends Comparable<T>> {
 }
 
+//Instance methods do not operate on any instance variables (i.e. fields), we can implement those algorithms as class methods 
+public static<T> void linearSearch(T[] data, T target){
+}
+
+//Without the use of constructors to specify the required constraint for the type variable T as a
+kind of Comparable type, the required constraint will need to be added to the type variable
+declaration in each method explicitly as below, i.e. between the keywords static and void
+
+public static <T extends Comparable<T>> void insertionSort(T[] data){
+}
+
