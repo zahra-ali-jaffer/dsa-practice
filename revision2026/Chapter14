@@ -1,1 +1,35 @@
 //Unit 14. Sorting and Searching
+//Implementing java.lang.Comparable interface
+
+public class Location implements Comparable<Location> {
+  private int x;
+  private int y;
+
+  public Location(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+  public int compareTo(Location another){
+    if (this.x == another.x){
+      return this.y - another.y;
+    }
+    else {
+      return this.x - another.x;
+    }
+  }
+}
+
+//If we are to order two Location objects by first their x coordinates and then by
+their y coordinates
+
+Location loc1 = new Location(1,2);
+Location loc2 = new Location(4,5);
+
+//negative integer being assigned to the variable result
+int result = loc1.compareTo(loc2)
+
+// Define a class named SortingAndSearching to hold the implementations. This class uses generic type to ensure that it works with objects that implement the Comparable
+interface.
+public class SortingAndSearching<T extends Comparable<T>> {
+}
+
