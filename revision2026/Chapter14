@@ -157,5 +157,54 @@ public static <T extends Comparable<T>> void selectionSort(T[] data) {
 //In descending order of time efficiency (from most efficient to least efficient), the algorithms are: Binary Insertion Sort, Straight Insertion Sort, Selection Sort, and Bubble Sort.
 
 //Quick Sort
+public static <T extends Comparable<T>> void quickSort(T[]data, int min, int max){
+  int indexofpartition;
+  if (max > min) {
+
+    //Create partitions
+    indexofpartition = findPartition(data, min, max);
+
+    //Sort the left side
+    quickSort(data, min, indexofpartition - 1);
+
+    //Sort the right side
+    quickSort(data, indexofpartition + 1, max);
+  }
+}
+
+//findPartition Method
+private static <T extends Comparable<T>> int findPartition (T[] data, int min, int max) {
+  int left, right;
+  T temp, split;
+
+  // use the first element as the splitting value
+  split = data[min];
+ 
+  left = min;
+  right = max;
+
+  while (left < right) {
+    // search for an element that should follow split
+    while (data[left].compareTo(split) <= 0 && left < right)
+    left++;
+
+    // search for an element that should precede split
+    while (data[right].compareTo(split) > 0)
+      right--;
+
+    // swap the elements
+    if (left < right) {
+      temp = data[left];
+      data[left] = data[right];
+      data[right] = temp;
+     }
+  }
+  // swap splitting element and element with index right
+  data[min] = data[right];
+  data[right] = split
+  return right;
+}
+//Quick sort executes on average in log-linear time, i.e. O(n log2 n)
+//Quick sort has an O(n^2) worst case behaviour - when the data is already sorted or sorted in reverse order
 
 
