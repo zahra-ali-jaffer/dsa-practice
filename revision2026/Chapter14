@@ -61,6 +61,8 @@ public int linesrSearch(T[] data, int min, int max, T target) {
   return - index - 1; //target not present
 }
 
+//a linear search is O(n)
+
 //Binary Search
 public int binarySearch(T[] data, int min, int max, T target) {
   int midpoint = (min + max)/2; //determine midpoint
@@ -80,3 +82,7 @@ public int binarySearch(T[] data, int min, int max, T target) {
     else
       return -midpoint-2; // element not present
 }
+
+//time efficiency of the binary search is O(log2 n) (Logarithmic sorts, e.g. quick sort and merge sort, typically require n × log2(n) comparisons
+to sort n elements | Sequential sorts require approximately n^2 comparisons to sort n elements)
+//worst case for a binary search is log2(n) 
