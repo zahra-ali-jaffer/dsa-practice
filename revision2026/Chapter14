@@ -110,3 +110,52 @@ for (int index = 1; index < data.length; index++ ) {
 
 //The header for method insertionSort which does not perform “in-place” sort:
 public List<T> insertionSort(T[] data)
+
+//Binary Insertion Sort
+public void binaryInsertionSort(T[] data){
+  for (int index = 1; index < data.length; index++) {
+    //Element to be inserted
+    T currentElement = data[index];
+    int position = binarySearch(data, 0, index - 1, currentElement);
+
+    if (position < 0) //element not present
+      position = -position -1; //Set as insertion position
+
+    int i = index;
+    while (i > position) {
+      data[i] = data[i - 1];
+      i--;
+    }
+    //Inser the element
+    data[position] = currentElement;
+  }
+}
+
+//Adding items to a binary search tree is very similar as the correct position is located in logarithmic time.
+
+//Selection Sort
+public static <T extends Comparable<T>> void selectionSort(T[] data) {
+  int min;
+  T temp;
+  for (int indexx = 0; index < data.length-1; index++) {
+
+    // Search for the smallest element from index to data.length-1
+    min = index;
+    for (int scan = index + 1; scan < data.length; scan++)
+      if(data[scan].compareTo(data[min]) < 0)
+        min = scan;
+
+    //Swap the values
+    temp = data[min];
+    data[min] = data[index];
+    data[index] = temp;
+  }
+}
+//Binary Insertion Sort executes in O(n^2)
+//Binary insertion sort is more efficient amongst the sort algorithms because it requires the least amount of comparisons in its process.
+
+//In descending order of time efficiency (from most efficient to least efficient), the algorithms are: Binary Insertion Sort, Straight Insertion Sort, Selection Sort, and Bubble Sort.
+
+//Quick Sort
+
+
