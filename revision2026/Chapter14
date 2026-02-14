@@ -62,6 +62,8 @@ public int linesrSearch(T[] data, int min, int max, T target) {
 }
 
 //a linear search is O(n)
+//With LinearSearch, if the negative value returned is −m, then m − 1 gives the index at which the target should be inserted into the array (if insertion is required).
+
 
 //Binary Search
 public int binarySearch(T[] data, int min, int max, T target) {
@@ -86,3 +88,25 @@ public int binarySearch(T[] data, int min, int max, T target) {
 //time efficiency of the binary search is O(log2 n) (Logarithmic sorts, e.g. quick sort and merge sort, typically require n × log2(n) comparisons
 to sort n elements | Sequential sorts require approximately n^2 comparisons to sort n elements)
 //worst case for a binary search is log2(n) 
+
+//Method binarySearch(T[], int, int, T) returns the index of the target if it is found or a negative value if not
+
+//Insertion Sort - “in-place” sorting process
+for (int index = 1; index < data.length; index++ ) {
+    T currentElement = data[index];
+    int position = index; //current sort position
+
+    //Shift larger values to right
+    while (position > 0 &&
+          data[position-1].compareTo(currentElement) > 0) 
+    {
+          data[position] = data[position-1];
+          position--;
+    }
+    //Insert the element
+    data[position] = currentElement; 
+  }
+}
+
+//The header for method insertionSort which does not perform “in-place” sort:
+public List<T> insertionSort(T[] data)
