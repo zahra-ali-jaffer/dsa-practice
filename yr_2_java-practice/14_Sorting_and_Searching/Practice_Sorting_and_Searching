@@ -1,1 +1,211 @@
+//Unit 14. Sorting and Searching
+//Implementing java.lang.Comparable interface
+
+public class Location implements Comparable<Location> {
+  private int x;
+  private int y;
+
+  public Location(int x, int y) {
+    this.x = x;
+    this.y = y;
+  }
+  public int compareTo(Location another){
+    if (this.x == another.x){
+      return this.y - another.y;
+    }
+    else {
+      return this.x - another.x;
+    }
+  }
+}
+
+//If we are to order two Location objects by first their x coordinates and then by
+their y coordinates
+
+Location loc1 = new Location(1,2);
+Location loc2 = new Location(4,5);
+
+//negative integer being assigned to the variable result
+int result = loc1.compareTo(loc2)
+
+// Define a class named SortingAndSearching to hold the implementations. This class uses generic type to ensure that it works with objects that implement the Comparable
+interface.
+public class SortingAndSearching<T extends Comparable<T>> {
+}
+
+//Instance methods do not operate on any instance variables (i.e. fields), we can implement those algorithms as class methods 
+public static<T> void linearSearch(T[] data, T target){
+}
+
+//Without the use of constructors to specify the required constraint for the type variable T as a
+kind of Comparable type, the required constraint will need to be added to the type variable
+declaration in each method explicitly as below, i.e. between the keywords static and void
+
+public static <T extends Comparable<T>> void insertionSort(T[] data){
+}
+
+//Linear Search
+public int linesrSearch(T[] data, int min, int max, T target) {
+  int index = min;
+  int comp; //result of comparison
+
+  while (index <= max) {
+    comp = target.compareTo(data[index]);
+    if (comp == 0) //target found
+      return index;
+    else if (comp < 0) //target not present
+      return - index - 1;
+    else
+      index++;
+  }
+  return - index - 1; //target not present
+}
+
+//a linear search is O(n)
+//With LinearSearch, if the negative value returned is −m, then m − 1 gives the index at which the target should be inserted into the array (if insertion is required).
+
+
+//Binary Search
+public int binarySearch(T[] data, int min, int max, T target) {
+  int midpoint = (min + max)/2; //determine midpoint
+  int comp = target.compareTo(data[midpoint]);
+
+  if(comp == 0)
+    return midpoint;
+  else if (comp < 0)
+    //target is in the left of the array
+    if (min <= midpoint - 1)
+      return binarySearch(data, min, midpoint - 1, target);
+    else
+      return -midpoint-1; //element not present
+  else //the ttarget is in the right half of the array
+    if (midpoint + 1 <= max)
+      return binarySearch(data, midpoint + 1, max, target);
+    else
+      return -midpoint-2; // element not present
+}
+
+//time efficiency of the binary search is O(log2 n) (Logarithmic sorts, e.g. quick sort and merge sort, typically require n × log2(n) comparisons
+to sort n elements | Sequential sorts require approximately n^2 comparisons to sort n elements)
+//worst case for a binary search is log2(n) 
+
+//Method binarySearch(T[], int, int, T) returns the index of the target if it is found or a negative value if not
+
+//Insertion Sort - “in-place” sorting process
+for (int index = 1; index < data.length; index++ ) {
+    T currentElement = data[index];
+    int position = index; //current sort position
+
+    //Shift larger values to right
+    while (position > 0 &&
+          data[position-1].compareTo(currentElement) > 0) 
+    {
+          data[position] = data[position-1];
+          position--;
+    }
+    //Insert the element
+    data[position] = currentElement; 
+  }
+}
+
+//The header for method insertionSort which does not perform “in-place” sort:
+public List<T> insertionSort(T[] data)
+
+//Binary Insertion Sort
+public void binaryInsertionSort(T[] data){
+  for (int index = 1; index < data.length; index++) {
+    //Element to be inserted
+    T currentElement = data[index];
+    int position = binarySearch(data, 0, index - 1, currentElement);
+
+    if (position < 0) //element not present
+      position = -position -1; //Set as insertion position
+
+    int i = index;
+    while (i > position) {
+      data[i] = data[i - 1];
+      i--;
+    }
+    //Inser the element
+    data[position] = currentElement;
+  }
+}
+
+//Adding items to a binary search tree is very similar as the correct position is located in logarithmic time.
+
+//Selection Sort
+public static <T extends Comparable<T>> void selectionSort(T[] data) {
+  int min;
+  T temp;
+  for (int indexx = 0; index < data.length-1; index++) {
+
+    // Search for the smallest element from index to data.length-1
+    min = index;
+    for (int scan = index + 1; scan < data.length; scan++)
+      if(data[scan].compareTo(data[min]) < 0)
+        min = scan;
+
+    //Swap the values
+    temp = data[min];
+    data[min] = data[index];
+    data[index] = temp;
+  }
+}
+//Binary Insertion Sort executes in O(n^2)
+//Binary insertion sort is more efficient amongst the sort algorithms because it requires the least amount of comparisons in its process.
+
+//In descending order of time efficiency (from most efficient to least efficient), the algorithms are: Binary Insertion Sort, Straight Insertion Sort, Selection Sort, and Bubble Sort.
+
+//Quick Sort
+public static <T extends Comparable<T>> void quickSort(T[]data, int min, int max){
+  int indexofpartition;
+  if (max > min) {
+
+    //Create partitions
+    indexofpartition = findPartition(data, min, max);
+
+    //Sort the left side
+    quickSort(data, min, indexofpartition - 1);
+
+    //Sort the right side
+    quickSort(data, indexofpartition + 1, max);
+  }
+}
+
+//findPartition Method
+private static <T extends Comparable<T>> int findPartition (T[] data, int min, int max) {
+  int left, right;
+  T temp, split;
+
+  // use the first element as the splitting value
+  split = data[min];
+ 
+  left = min;
+  right = max;
+
+  while (left < right) {
+    // search for an element that should follow split
+    while (data[left].compareTo(split) <= 0 && left < right)
+    left++;
+
+    // search for an element that should precede split
+    while (data[right].compareTo(split) > 0)
+      right--;
+
+    // swap the elements
+    if (left < right) {
+      temp = data[left];
+      data[left] = data[right];
+      data[right] = temp;
+     }
+  }
+  // swap splitting element and element with index right
+  data[min] = data[right];
+  data[right] = split
+  return right;
+}
+//Quick sort executes on average in log-linear time, i.e. O(n log2 n)
+//Quick sort has an O(n^2) worst case behaviour - when the data is already sorted or sorted in reverse order
+
+
 
