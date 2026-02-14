@@ -1,1 +1,46 @@
+//
 
+//BinaryTree Class
+
+package dsaj;
+import java.util.Iterator;
+
+public class BinaryTree<T> implements Iterable<T>{
+  protected BinaryTreeNode<T> root;
+
+  //Constructs an empty tree
+  public BinaryTree(){
+    root = null;
+  }
+  //Constructs tree with just root node
+  public BinaryTree(T element){
+    root = new BinaryTreeNode<>(element);
+  }
+  //Reset the tree to an empty state
+  public void clear(){
+    root = null;
+  }
+  //Return size of the tree
+  public int size(){
+    return size(root);
+  }
+  //Returns size of subtree
+  protected int size(BinaryTreeNode<T> node) {
+    if (node == null)
+      return 0; //base case
+    else
+      return 1 + size(node.left) + size(node.right); //recursive case
+  }
+  //Return height of this tree
+  public int height(){
+    return height(root);
+  }
+  //Returns height by counting no of trees along the longest path from root to a leaf within the tree
+  protected int height (BinaryTreeNode<T> node){
+    if (node == null)
+      return 0; //base case
+    else
+      //recursive case
+      return 1 + Math.max(height(node.left), height(node.right));
+  }
+}
