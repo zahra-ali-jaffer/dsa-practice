@@ -126,7 +126,7 @@ public void binaryInsertionSort(T[] data){
       data[i] = data[i - 1];
       i--;
     }
-    //Inser the element
+    //Insert the element
     data[position] = currentElement;
   }
 }
