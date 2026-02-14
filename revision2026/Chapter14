@@ -44,3 +44,19 @@ declaration in each method explicitly as below, i.e. between the keywords static
 public static <T extends Comparable<T>> void insertionSort(T[] data){
 }
 
+//Linear Search
+public int linesrSearch(T[] data, int min, int max, T target) {
+  int index = min;
+  int comp; //result of comparison
+
+  while (index <= max) {
+    comp = target.compareTo(data[index]);
+    if (comp == 0) //target found
+      return index;
+    else if (comp < 0) //target not present
+      return - index - 1;
+    else
+      index++;
+  }
+  return - index - 1; //target not present
+}
