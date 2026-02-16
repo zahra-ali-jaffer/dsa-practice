@@ -77,3 +77,8 @@ private static<T> int findPartition(T[] data, int min, int max){
   data[right] = split;
   return right;
 }
+
+//The array that’s passed through as a parameter is passed by reference, meaning that from the first call of quickSort()
+//Quick sort -> log2(n) ->  to decompose the list into ones -> Recursion, comparing all n elements -> O(nlog2n). 
+//Log-linear time, or O(nlog2n)
+//Worst Case -> O(n^2) -> When the data is already sorted, or sorted in reverse order
