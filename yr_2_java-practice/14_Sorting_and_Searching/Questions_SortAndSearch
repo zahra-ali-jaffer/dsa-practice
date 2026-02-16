@@ -1,0 +1,31 @@
+//Linear Search - O(n)
+
+public static <T> int linearSearch(T[] data, int min, int max, T target) {
+  int index = min;
+  int comparison; // storing results of compareTo()
+
+  while (index<= max) {
+    comparison = target.compareTo(data[index]);
+    if (comp == 0) return index; // target found, return index of target
+    else if (comp < 0) return -(index - 1); //target not found, report where stopped
+    else index++;
+  }
+  return -(index - 1); //reached end of search pool, target not found, so report stopped index
+}
+
+//Binary Search - Must be sorted (Can access middle elements in 0(1)) - Start comparisons in the middle 
+//Efficiency is O(log2n) --> even if it can't find the element
+
+public static <T> int binarySearch(T[]data, int min, int max, T target){
+  int mid = (min + max) / 2; //Making it an int forces it to Math.floor
+
+  int comparison = target.compareTo(data[mid]);
+  if (comp == 0) return mid; //Taregt found, return index
+  else if (comp < 0) { //Target could be on the left
+    if (mid <= mid - 1) return binarySearch(data, min, mid -1, target);
+    else return -mid -1; // Element can't be present, this was final possible split
+  } else { //Target could be on the right
+    if (mid + 1 <= max) return binarySearch(data, mid + 1, max, target);
+    else return -mid-2; // Element can't be present, this was final possible split
+  }
+}
