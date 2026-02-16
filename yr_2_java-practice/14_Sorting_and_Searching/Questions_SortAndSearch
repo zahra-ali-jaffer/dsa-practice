@@ -29,3 +29,51 @@ public static <T> int binarySearch(T[]data, int min, int max, T target){
     else return -mid-2; // Element can't be present, this was final possible split
   }
 }
+
+//Binary search considerably faster than linear search for larger search pools, but remember that binary search requires that a list is sorted. 
+//Sorting
+//Sequential sorting - requiring approximately n^2 comparisons to sort n elements
+//Logarithmic sorting - typically requiring nlog2(n) comparisons to sort n elements
+
+//Straight Insertion Sort - Orders list by repetitively inserting a parting value into a sorted subset of a list
+//Binart Insertion Sort - Find the correct place to insert an item
+//Selection Sort - Orders its lists by repetitively putting a particular value (the smallest one) into its final position
+//Quick Sort - Orders a list by splitting the list into two partitions around a middle (pivot) element, where everything smaller is on the left and everything greater is on the right, then recursively sorting each partition.
+
+
+//Quick Sort (2 methods - quickSort() -> Recursive algorithm, and findPartition() -> which rearranges the eleemnts into two partitions)
+
+public static <T> void quickSort(T[] data, int min, int max) {
+  int partitonIndex;
+  if (max > min) {
+    //Create partitions, store index of split so we can work around it
+    partitionIndex = findPartition(data, min, max);
+    quickSort(data, min, partitionIndex - 1); //Sort left
+    quickSort(data, partitionIndex + 1, max); //Sort right
+  }
+}
+private static<T> int findPartition(T[] data, int min, int max){
+  int left, right;
+  T temp, split;
+
+  split = data[min];//Use the first element as splitting value
+  //Start from the ends
+  left = min;
+  right = max;
+
+  while (left < right) { //Pointers haven't reached each other
+    //Keep moving pointers if the element they're on are in the right place
+    while (data[left].compareTo(split) <= 0 && left < right) left++;
+    while (data[right].compareTo(split) > 0) right--;
+
+    if (left < right) { // If they haven't passed each other, swap elements
+      temp = data[left];
+      data[left] = data[right];
+      data[right] = temp;
+    }
+  }
+  // Swap splitting element and the element at the right's index (middle)
+  data[min] = data[right];
+  data[right] = split;
+  return right;
+}
