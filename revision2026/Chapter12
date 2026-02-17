@@ -39,3 +39,65 @@ public void printOnes(){
 //^Error when code executed, the issue is that there’s no base case, no non-recursive part to stop it from recursively infinitely.
 
 //Processing Linear Linked Structures with Recursion
+//Implement size(), toString() and copy() with recursion
+
+public class LinearNode<T>{
+  private LinearNode<T> next;
+  private T element;
+  /*...*/
+
+  public int size(){
+    if(next == null) return 1; // Base case
+    else return 1 + next.size(); // Recursive case
+  }
+
+  // toString() is basically the same idea
+  public String toString() {
+    if (next == null) return element.toString(); //Base case
+    else return element.toString() + ", " + next.toString(); //Recursive step
+  }
+
+  public LinearNode<T> copy() {
+    LinearNode<T> current = new LinearNode<T>(element);
+    if (next != null) {
+      current.next = next.copy(); // everything must be copied
+    }
+    // Base case (not explicitly wriiten) is next == null
+    return current;
+  }
+}
+
+//Change in LinkedList Class
+public class LinkedList<T>{
+  private LinearNode<T> front;
+  /*...*/
+  public String toString(){
+    String result = "{";
+    if (front != null) result += front.toString();
+    result += "}";
+    return result;
+  }
+  public LinkedList<T> copy(){
+    LinkedList<T> result = new LinkedList<>();
+    if(front != null) result.front = front.copy();
+    return result;
+  }
+}
+
+//Since the above requires too many changes, changing the methods only in LinkedList -> to make it recursive (without going into the nodes itself)
+
+public class LinkedList<T>{
+  private LinearNode<T> front;
+  /*...*/
+  public LinkedList<T> copy(){
+    LinkedList<T> result = new LinkedList<>();
+    if (front != null) result.front = this.copy(front);
+    return result;
+  }
+  private LinearNode<T> copy(LinearNode<T> node){
+    LinearNode<T> current = new LinearNode<>(node.getElement());
+    if (node.getNext() != null) current.setNext(this.copy(node.getNext()));
+    return current;
+  }
+}
+
