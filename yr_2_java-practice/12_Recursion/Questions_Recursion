@@ -1,0 +1,145 @@
+//Recursion
+
+Q1 — Define Searching
+A1 - Searching is the process of locating a target element in a collection of data.
+
+Q2 — Linear Search Idea
+A2 - Sequentially examine elements until target is found or list ends.
+
+Q3 — Linear Search Implementation
+A3 -
+public static int linearSearch(int[] arr, int target) {
+    for (int i = 0; i < arr.length; i++) {
+        if (arr[i] == target)
+            return i;
+    }
+    return -1;
+}
+
+Q4 — Best Case of Linear Search
+A4 - O(1) → element found at first position.
+
+Q5 — Worst Case of Linear Search
+A5 - O(n) → element at last position or absent.
+
+Q6 — Binary Search Requirement
+A6 - Data must be sorted.
+
+Q7 — Binary Search Implementation
+A7 - 
+public static int binarySearch(int[] arr, int target) {
+    int low = 0, high = arr.length - 1;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+
+        if (arr[mid] == target)
+            return mid;
+        else if (arr[mid] < target)
+            low = mid + 1;
+        else
+            high = mid - 1;
+    }
+    return -1;
+}
+
+Q8 — Binary Search Complexity
+A8 - O(log n) → search space halves each step.
+
+Q9 — Why Binary Search Faster
+A9 - Each comparison removes half the elements.
+
+Q10 — Define Sorting
+A10 - Sorting arranges elements into a specific order (ascending/descending).
+
+Q11 — Bubble Sort Idea
+A11 - Repeatedly swap adjacent out-of-order elements.
+
+Q12 — Bubble Sort Implementation
+A12 - 
+public static void bubbleSort(int[] arr) {
+    for (int pass = 0; pass < arr.length - 1; pass++) {
+        for (int i = 0; i < arr.length - 1 - pass; i++) {
+            if (arr[i] > arr[i + 1]) {
+                int temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+            }
+        }
+    }
+}
+
+Q13 — Bubble Sort Complexity
+A13 - Worst case O(n²).
+
+Q14 — Selection Sort Idea
+A14 - Find smallest element → place at front.
+
+Q15 — Selection Sort Implementation
+A15 -
+public static void selectionSort(int[] arr) {
+    for (int i = 0; i < arr.length - 1; i++) {
+        int min = i;
+
+        for (int j = i + 1; j < arr.length; j++) {
+            if (arr[j] < arr[min])
+                min = j;
+        }
+
+        int temp = arr[i];
+        arr[i] = arr[min];
+        arr[min] = temp;
+    }
+}
+
+Q16 — Selection Sort Complexity
+A16 - Always O(n²).
+
+Q17 — Insertion Sort Idea
+A17 - Insert each element into sorted portion.
+
+Q18 — Insertion Sort Implementation
+A18 - 
+public static void insertionSort(int[] arr) {
+    for (int i = 1; i < arr.length; i++) {
+        int key = arr[i];
+        int j = i - 1;
+
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+
+        arr[j + 1] = key;
+    }
+}
+
+Q19 — Insertion Sort Best Case
+A19 - O(n) → already sorted.
+
+Q20 — Insertion Sort Worst Case
+A20 - O(n²).
+
+Q21 — What is Time Complexity
+A21 - Measures how running time grows with input size.
+
+Q22 — Meaning of O(1)
+A22 - Constant time → independent of n.
+
+Q23 — Meaning of O(n)
+A23 - Linear time → proportional to n.
+
+Q24 — Meaning of O(log n)
+A24 - Logarithmic time → repeated halving.
+
+Q25 — Meaning of O(n²)
+A25 - Quadratic time → nested loops.
+
+Q26 — Why Sorting Important for Binary Search
+A26 - Binary search only works on sorted data.
+
+Q27 — Which Search Faster for Large Data
+Q27 - Binary search → O(log n) vs linear O(n).
+
+Q28 — When Linear Search Preferred
+A28 - Unsorted data or very small datasets.
