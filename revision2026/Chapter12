@@ -1,4 +1,5 @@
 //Recursion
+//Every call will set up a new execution environment, each with new parameters and local variables, which will then close and return to the previous method that invoked it on completion.
 
 //Iterative vs Recursive --> size without count field
 
