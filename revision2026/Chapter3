@@ -50,10 +50,67 @@ public interface Bounded {
 //Stacks
 
 public interface StackADT<T> {
-
+  public void push(T el);
+  public T pop();
+  public T peek();
+  public boolean isEmpty();
+  public int size();
 }
 
+//Bounded Stack
+public interface BoundedStackADT<T>
+extends StackADT<T>, Bounded{
+/*...*/
+}
 
+//Or 
+public interface BoundedStackADT<T>
+extends StackADT<T> {
+	public boolean isFull();
+	public int capacity();	
+}
+
+//Queues
+//isEmpty(), size(), toString(), enqueue(), dequeue(), first()
+
+//Lists 
+//Linear, elements can be added or removed anywhere, More Flexible, Can contain duplicate values
+//isEmpty(), size(), toString(), removeFirst(), removeLast(), remove(Object), first(), last(), Iterator()-> Extending Iterable<T>
+
+//Maps
+//Non-linear, Maps keys to values, keys have to be unique
+//add(), reassign(), remove(), lookup()
+//Should a MapADT extend Iterable?
+//No, it’d be better to add methods such as keySet() and valueSet() to the ADT to facilitate looping over the keys or values in the map respectively.
+
+//Sets
+//Unordered, technically non-linear collection of unique elements of a particular type.
+//isEmpty(), size(), toString(), add(), addAll(), remove(), removeFirst(), removeLast(), remove(Object), removeAll(), retainAll(), contains(), equals(), isSubset(), union(), intersection(), difference(), pick(), removeRandom() and iterator() -> by extending Iterable<T>
+
+public interface SetADT<T> extends Iterable<T> {
+  public boolean add(T element); // Returns bool to indicate if the set changed or not
+  public boolean addAll(SetADT<T>A);
+  public boolean remove(T element);
+  public boolean removeAll(SetADT<T> A); // Removes all elements of set A from this set
+	public boolean retainAll(SetADT<T> A); // Removes all elements EXCEPT those in set A
+	public SetADT<T> union(SetADT<T> A); // Returns this ∪ A
+	public SetADT<T> intersection(SetADT<T> A); // this ∩ A
+	public SetADT<T> difference(SetADT<T> A); // this \ A
+	public boolean isSubset(SetADT<T> A); // this ⊆ A
+	public boolean contains(T element);
+	public boolean equals(SetADT<T> A);
+	public boolean isEmpty();
+	public int size();
+}
+
+//Multi-sets
+//Elements can appear more than once. They are still unordered
+//They remain the same as a set, with the difference being that duplicate elements must be accounted for.
+//Two methods can be added -> count(T element), sum()
+//count(T element)  - returns the number of occurrences of an element in a multi-set
+//sum() - concatenates the two multisets together, like {d,e,n} + {d,a,n,n,i} = {d,e,n,d,a,n,n,i}
+
+}
 
 
 
