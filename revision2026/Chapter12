@@ -1,1 +1,41 @@
 //Recursion
+
+//Iterative vs Recursive --> size without count field
+
+//Iterative
+public int size(){
+  LinkedNode<T> cursor = front;
+  int count = 0;
+  while (cursor!- null) {
+    count++;
+    cursor = cursor.getNext();
+  }
+  return count;
+}
+
+//Recursive
+//In List
+public int size() {
+  return front.size();
+}
+//In Node
+public int size(){
+  if (next == null) return 1;
+  else return 1 + next.size();
+}
+
+//A method that invokes itself -> Recursive
+public int sum(int n) {
+  if (n == 1) return 1; //Base case
+  else return n + sum(n - 1); //Recursive step, keeps going until n == 1
+}
+
+//If no base case -> Infinite recursion -> Stack Overflow
+public void printOnes(){
+  System.out.print(1);
+  printOnes();
+}
+
+//^Error when code executed, the issue is that there’s no base case, no non-recursive part to stop it from recursively infinitely.
+
+//Processing Linear Linked Structures with Recursion
