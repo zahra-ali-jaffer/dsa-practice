@@ -101,3 +101,40 @@ public class LinkedList<T>{
   }
 }
 
+//Example -> Tower of Hanoi
+private void moveTower(int numDisks, int start, int end, int temp) {
+  if (numDisks == 1) moveOnDisk(start, end);
+  else {
+    moveTower(numDisks - 1, start, temp, end);
+    moveOneDisk (start, end);
+    moveTower(numDisks-1, temp, end, start);
+  }
+}
+private void moveOneDisk(int start, int end){
+  System.out.println("Move one disk from" + start + "to" + end);
+}
+//for every iteration of moveTower() (excluding the base case), we make two extra executions of moveTower(), and then even on the base case, we make one moveOneDisk()
+
+//Fibonacci Numbers
+//Inefficient method - takes 2^(n-1) + 1 steps to find the nth number
+public int fib(int n){ //Calculate nth Fibonacci Number
+  if (n == 0 || n == 1) return 1; //Base case
+  else return fib(n - 1) + fib(n - 2);
+}
+
+//Efficient method - O(n)
+public int fib(int n){
+  if (n == 0 || n ==1 ) return 1;
+
+  int f0 = 1; int f1 = 1; int result;
+  for (int i = 2; i <= n; i++) {
+    result = f0 + f1;
+    f0 = f1;
+    f1 = result;
+  }
+  return result;
+}
+
+//Every recursive solution has a corresponding iterative solution. 
+//Recursion solutions, in some cases, can be simpler and more elegant than the iterative version, but since every call makes a new execution environment, there’s a lot more overhead.
+//Iterative solutions can be perform better, and even just be more suitable than recursion, such as for summing numbers from 1 to N, or for calculating factorials.
