@@ -1,1 +1,61 @@
+//ADTs and Collections
+//An Abstract Data Type (or ADT) is a specification of a set of data, and the set of operations that can be performed on it.
+//It’s abstract because the focus is on defining properties on the data, and the behaviour of the operations, rather than the exact implementation 
+
+//2 bits of Information (abstract structure of the data, and typical operations that can be performed on it)
+
+//Collections --> group of other objects of a fixed type
+
+ArrayList<Book> bookshelf = new ArrayList<>(100);
+java.util.HashSet<Treasure> myTreasure = new java.util.HashSet<>();
+java.util.HashMap<String, Correspondence> phoneBook = new java.util.HashMap<>(25);
+
+//Categorising collections -> Formation, Organisation, Size
+//Formation -> Unordered, Linear and Non-Linear
+//Organisation -> Order they were added, Dependant on relationship between elements
+//Size -> Bounded(Fixed size), Unbounded(Dynamic)
+
+//All Collections -> isEmpty() & size()
+//Bounded Collections also -> isFull() & capacity()
+
+//Exceptions
+public Map<Prize, Ticket> luckyDraw(){
+  Map<Prize, Ticket> winners = new HashMap<>();
+  try { //Important 
+    for (Prize prize : prizes) {
+      winners.put(prize, tickets.draw()); //Normal case
+    }
+  } catch (IllegalStateException ise) {//Looking for specific error
+    return winners; // Error case
+  }
+  return winners;
+}
+
+//Bounded Collection - Modelling isFull() and capacity()
+
+public interface Bounded {
+  /** Returns true if collection has no more room for more elements */
+  public boolean isFull(); // Remember, interfaces have no bodies on methods
+  
+  /** Returns the maximum elements a collection can hold */
+  public int capacity();
+}
+
+//Bounded shouldn’t need to extend java.lang.Iterable because that’s a feature of a collection
+//Java interfaces (not the other type of interface) typically define a set of abstract methods, such as public abstract int size(); but will not contain any data members(fields)
+//Classes and interfaces modelling collections should be generic 
+//Regardless of what the collection is storing -> it will count the elements in the same way to determine the size of the collection.
+
+//Collection ADTs
+//Stacks
+
+public interface StackADT<T> {
+
+}
+
+
+
+
+
+
 
