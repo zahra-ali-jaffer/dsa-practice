@@ -190,10 +190,249 @@ public abstract class DoubleList<T> {
 //call `remove()` before `next()`, or
 //call `remove()` twice without an intervening `next()` call.
 
+//List ADT -> Linear collection, with more flexibility -> with stacks and queues because they support the additional and removal of elements anywhere along itself. 
+// 2 tyes of lists 
+//Ordered (or sorted) lists (inherent or chronological)
+//Indexed lists (no inherent order relationship)
+//unordered lists - a special case of indexed lists, where instead of providing indexes we specify the position relative to other elements in the list (so either add before/after element x, or add at the front/rear).
+
+//List operations based on types
+
+public interface ListADT<T> extends Iterable<T>{}
+
+/* .add(Comparable) requires that T extends Comparable so we put that in the defintion.
+	 Then, .add() will use T's compareTo() method to determine where to place elements, 
+			< 0 means this should preceed the given element
+			= 0 means it has the same natural order as the given element
+			> 0 means this should come after the given element. */
+
+public interface OrderedListADT<T extends Comparable<T>> extends ListADT{}
+public interface UnorderedListADT<T> extends ListADT{}
+public interface IndexedListADT<T> extends ListADT{}
+
+//Ordered List -> Inherent Order
+//Some objects (such as String, Integer, Double, Date, etc.) will have a natural order, but for objects that don’t (classes we define ourselves) we can introduce our own order by explicitly defining it.
+//Example: Keeping track of Employee objects, sorting by their seniority and then their names alphabetically -> Make a compareTo() method
+
+public class Employee implements Comparable<Employee>{
+/*...*/
+public int compareTo(Employee another) {
+	int result;
+
+	//Approach 1
+	if (this.years > another.getYears()) result = 1;
+	else if (this.years < another.getYears()) result =-1;
+
+	//Aproach 2
+	if (this.years == another.getYears()) result = this.name.compareTo(another.getName());
+	else result = this.years - another.getYears();
+
+	return result;
+}
+/*...*/
+}
+
+//Implementing Methods
+public class LinkedOrderedList<T extends Comparable<T>> 
+	extends DoubleList<T> implements OrderedListADT<T> {
+	// Since some methods are already defined in DoubleList, we can use the super modifier
+	
+	public LinkedOrderedList() { super(); }
+	
+	public boolean remove(T element) {
+		DoubleNode<T> tmp = super.find(element);
+		if (tmp == null) return false;
+		super.remove(tmp);
+		return true;
+	}
+
+	public void add(T element) {
+		if (front == null) { super.addFirst(element); return; }
+		// Look for entry position
+		DoubleNode<T> cursor = front;
+		while (cursor != null && element.compareTo(cursor.getElement()) > 0) 
+			cursor = cursor.getNext()
+
+		if (cursor == null) super.addLast(element); // Add last
+		else super.addBefore(cursor, element); // Add element BEFORE cursor node
+	}
+
+	public T first() {
+		if (front == null) throw new IllegalStateException("first: no first element");
+		return front.getElement();
+	}
+
+	public T removeLast() { return super.removeLast(); } // Exposes the protected class
+}
+
+//Using an Indexed List
+//Define a private findNode(n) method which returns the DoubleNode<T> at the nth index of the list
+
+public class LinkedIndexedList<T> extends DoubleList<T> implements IndexedListADT<T> {
+	public LinkedIndexedList() { super(); }
+	
+	private DoubleNode<T> findNode(int i) {
+		if (i < 0 || i >= count) 
+			throw new IllegalArgumentException("findNode: index parameter OutOfBounds");
+		DoubleNode<T> current = front;
+		for (int cursor = 0; cursor < i; cursor++) current = current.getNext();
+		return current;
+	}
+
+	public T get(int idx) { 
+		return findNode(idx).getElement();
+	}
+
+	public T set(int idx, T element) { // Returns old element
+		DoubleNode<T> node = findNode(idx);
+		T res = node.getElement();
+		node.setElement(element);
+		return res;
+	}
+
+	public T remove(int idx) {
+		DoubleNode<T> node = findNode(i)
+		super.remove(node);
+		return node.getElement();
+	}
+
+	public void add(int idx, T element) {
+		if (i == 0) super.addFirst(element); // New first element
+		else if (i == count) super.addLast(element); // New rear element
+		else {
+			DoubleNode<T> next = findNode(i);
+			super.addBefore(next, element);
+		}
+	}
 
 
+	public int indexOf(T target) {
+		DoubleNode<T> cursor = front;
+		int pos = 0;
 
+		while (cursor != null) {
+			if (target.equals(cursor.getElement())) return pos;
+			else {
+				pos++;
+				cursor = cursor.getNext();
+			}
+		}
 
+		return -1; // Not found
+	}
+}
 
+//Implementing Lists with Arrays
+//Indexed List
+//Elements should be kept contiguously at one end of the array, a size field should be kept up to date so that it also works as the index of the first empty cell, expandCapacity() will need to be used at some point and we can keep the current capacity in a, well, capacity field.
 
+public class ArrayList<T> implements IndexedListADT<T> {
+	public static final int DEFAULT_CAPACITY = 20;
+	private T[] elements;
+	private int size;
+	private int capacity;
 
+	public ArrayList(int initCapacity) {
+		elements = (T[]) (new Object[initCapacity]); // NOOOOOOOOO
+		size = 0;
+		capacity = initCapacity;
+	}
+
+	public ArrayList() { this(DEFAULT_CAPACITY); }
+
+	public int size() { return size; }
+	public boolean isEmpty() { return size == 0; }
+	public void clear() { size = 0; } // If we trust size for iteration, this'll be fine
+	public boolean contains(T elem) { return indexOf(elem) != -1; }
+
+	// Considering this'll only happen when adding, we should leave a gap
+	// so that we do not have to shift again once this is done.
+	private void extendArray(int gap) {
+		capacity *= 2;
+		T[] newArray = (T[]) (new Array.newInstance(Object.class, capacity); 
+		// Splitting this into two loops increases efficiency, because there isn't a 
+		// statement in the middle that adds extra processing.
+		for (int i = 0; i < gap; i++) { newArray[i] = elements[i]; }
+		for (int i = gap; i < size; i++) { newArray[i + 1] = elements[i]; }
+		elements = newArray;
+	}
+
+	public void add(int idx, T element) { 
+		if (idx < 0 || idx > size) // idx == size is allowed
+			throw new IllegalArgumentException("add: index OutOfBounds");
+
+		if (size == capacity) extendArray(idx);
+		else { // Shift everything up by one, starting from the end!
+			for (int j = size; j > idx; j++) { elements[j] = elements[j - 1]; }
+		}
+
+		elements[idx] = element;
+		size++;
+	}
+
+	public int indexOf(T elem) {
+		for (int i = 0; i < size; i++) {
+			if (elem.equals(elements[i]) return i;
+		}
+		return -1; // not found!
+	}
+
+	public T get(int idx) {
+		if (idx < size && idx >= 0) return elements[i];
+		else throw new IllegalArgumentException("get: index OutOfBounds");
+	}
+
+	public T set(int idx, T element) { // Return old element
+		if (idx < size && idx >= 0) { 
+			T res = elements[idx];
+			elements[idx] = element;
+			return res;
+		} else throw new IllegalArgumentException("set: index OutOfBounds");
+	}
+
+	public T remove(int idx) {
+		if (idx < 0 || idx > size)
+			throw new IllegalArgumentException("remove: index OutOfBounds");
+		T elem = elements[idx];
+
+		// Shift everything after idx back down
+		for (int j = idx + 1; j < size; j++) { elements[j - 1] = elements[j]; }
+		
+		size--;
+		return elem;
+	}
+
+	public Iterator<T> iterator() { return new ArrayIterator(); }
+
+	// We're gonna do the same thing again! Confused? See Modelling Doubly-linked Lists
+	private class ArrayIterator implements Iterator<T> {
+		private int cursor;
+		private int current;
+
+		public ArrayIterator() { cursor = 0; current = -1; }
+
+		public boolean hasNext() { return cursor < size; }
+		public T next() {
+			if (!hasNext()) throw new IllegalStateException("next: no next element!");
+			current = cursor;
+			T result = elements[cursor];
+			cursor++;
+			return result;
+		}
+		public void remove() {
+			if (current == -1) 
+				throw new IllegalStateException("remove: no element to remove!");
+			for (int i = current; i < size; i++) { elements[i] = elements [i + 1]; }
+			size--;
+			cursor--;
+			current = -1; // To prevent re-run
+		}
+	}
+}
+
+//With Ordered Lists
+//It’s more convenient to base the implementation of OrderedArrayList on top of ArrayList, but doing so would inherit too many methods, and methods would violate the inherent ordering of an ordered list.
+//Make a wrapper class to allow only methods we want to be accessible, and hide the underlying class as a private field. 
+
+//Linkd List Competition
+addLast() has O (Doubly-Linked-Structure)	and O(1) / O(n) (in case of shift)
