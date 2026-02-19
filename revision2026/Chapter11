@@ -1,1 +1,76 @@
+//Lists
+
+//Improving person class
+
+public enum Gender { male, female, other; }
+
+public class Person {
+  private String name;
+  private Gender gender;
+  private Person mother; //Link to another Person object
+  private Person child; //Again
+
+  public Person (String name, Gender gender, Person mother) {
+    this.gender = gender;
+    this.name = name;
+    this.mother = mother;
+    this.child = null; 
+  }
+  public Person givesBirth(String childName, Gender childGender) {
+    if(this.gender != Gender.female) System.out.println("PRINTED!");
+    if(this.child != null) new UnsupportedException("Only one! Sorry")
+
+    this.child = new Person(childName, childGender, this);
+    return this.child;
+  }
+}
+
+//Doubly-Linked Lists -> Each node know its previous node as well as the next node from before.
+
+public class DoubleNode<T>{
+  private DoubleNode<T> previous;
+  private DoubleNode<T> next;
+  private T element;
+
+  public DoubleNode(T elem) {
+    previous = null; 
+    next = null;
+    element = elem;
+  }
+
+  public DoubleNode<T> getPrevious() { return previous; }
+  public void setPrevious(DoubleNode<T> node) { previous = node; }
+  public DoubleNode<T> getNext() { return next; }
+  public void setNext(DoubleNode<T> node) { next = node; }
+}
+
+//Now easier to support the remove() operation of an Iterator
+  cursor.previous().setNext(cursor.next());
+  cursor = cursor.next();
+
+//Con -> Increased Overhead (3 elements to track) in both storage (more links needed) and time (need to update both) 
+
+//Modelling Doubly-Linked Lists
+//DoubleNode, DoubleList, DoubleIterator
+//DoubleList is an interesting class because it is abstract (it cannot be created), but all of the methods here will be concrete to ease the burden on implementers.
+//Majority protected classes are not supposed to be used by general client, but by those implementing various collection ADTs(such as ordered and indexed lists)
+//Simpler methods such as isEmpty() and size() are public and can be called from client code directly.
+
+import java.util.Iterator;
+
+public abstract class DoubleList<T> {
+  protected DoubleNode<T> front;
+  protected DoubleNode<T> rear;
+  protected int count;
+
+  protected DoubleList(){
+    rear = null; front = null; count = 0;
+  }
+
+
+}
+
+
+
+
 
