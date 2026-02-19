@@ -66,9 +66,131 @@ public abstract class DoubleList<T> {
   protected DoubleList(){
     rear = null; front = null; count = 0;
   }
+  protected T removeLast() { // Return the element at the back, remove the node
+		if (isEmpty()) throw new IllegalStateException("removeLast: list empty!");
 
+		T result = rear.getElement();
+		rear = rear.getPrevious();
+		count--;
 
+		if (rear == null) front = null;
+		else rear.setNext(null);
+
+		return result;
+	}
+
+	protected T removeFirst() { // Quite literally the opposite of removeLast()
+		if (isEmpty()) throw new IllegalStateException("removeFirst: list empty!");
+		
+		T result = front.getElement()
+		front = front.getNext();
+		count--;
+
+		if (front == null) rear = null;
+		else front.setPrevious(null);
+		
+		return result;
+	}
+
+	protected void remove(DoubleNode<T> node) {
+		if (node == null) throw new IllegalArgumentException("remove: node cannot be null");
+		if (isEmpty()) throw new IllegalStateException("remove: list empty!");		
+
+		if (node == front) this.removeFirst(); // Easier to reuse than redo methods
+		else if (node == rear) this.removeLast();
+		else {
+			node.getNext().setPrevious(node.getPrevious());
+			node.getPrevious().setNext(node.getNext());
+			count--;
+		}
+	}
+
+	protected void addFirst(T element) {
+		DoubleNode<T> node = new DoubleNode<T>(element);
+		node.setNext(front);
+		front = node;
+
+		if (count == 0) rear = node; // We haven't updated count yet for this reason
+		else {
+			first.getNext().setPrevious(node);
+		}
+		count++;
+	}
+
+	protected void addAfter(DoubleNode<T> current, T element) {
+		if (current == null) 
+			throw new IllegalArgumentException("addAfter: node cannot be null");
+		if (current == rear) addLast(element);
+		// No equivalent for addFirst() because... think about it.
+		else {
+			DoubleNode<T> node = new DoubleNode<T>(element);
+			node.setNext(current.getNext());
+			node.setPrevious(current);
+			current.getNext().setPrevious(node);
+			current.setNext(node);
+			count++;
+		}
+	}
+
+	protected DoubleNode<T> find(T target) {
+		DoubleNode<T> cursor = front;
+		while (cursor != null) {
+			if (target.equals(cursor.getElement()) return cursor;
+			else cursor = cursor.getNext();
+		}
+		return null;
+	}
+
+	protected boolean contains(T element) { return find(element) != null; }
+	public boolean isEmpty() { return count == 0; }
+	public int size() { return count; }
+	public void clear() { front = null; rear = null; count = 0; }
+	public Iterator<T> iterator() { return new DoubleIterator(); }
+
+	// NESTED CLASS!!!! This time we'll also support the remove operation.
+	private class DoubleIterator implements Iterator<T> { // Implicitly generic
+		// We also already have access to all the data fields in DoubleList!
+		private DoubleNode<T> cursor; // next node to be returned by next
+		private DoubleNode<T> node; // node just returned by next, to be removed
+
+		public DoubleIterator() { cursor = front; node = null; }
+		public boolean hasNext() { return cursor != null; }
+		public boolean T next() {
+			if (!hasNext()) throw new IllegalStateException("next: no next element!");
+			node = cursor; // New!
+			T result = cursor.getElement();
+			cursor = cursor.getNext();
+			return result;
+		}
+		public void remove() { 
+			if (node == null) throw new IllegalStateException("remove: nothing to remove");
+
+			if (node == rear) { // last element
+				rear = rear.getPrevious();
+				if (rear == null) front = null; // List had 1 element, now empty
+				else rear.setNext(null);
+			} 
+			else if (node == front) { // front element
+				front = front.getNext();
+				front.setPrevious(null); // No edge case, list must have more than 1 element
+			} 
+			else { // inner element
+				node.getPrevious().setNext(node.getNext());
+				node.getNext().setPrevious(node.getPrevious());
+			}
+			count--;
+			node = null; // Stops remove() from being called twice in one next() call
+		}
+	}
 }
+
+//remove() -> DoubleIterator
+//remove() should remove the item, returned by the most recent call to next(), from the collection.
+//Cannot:
+//call `remove()` before `next()`, or
+//call `remove()` twice without an intervening `next()` call.
+
+
 
 
 
