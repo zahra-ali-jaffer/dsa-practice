@@ -434,5 +434,5 @@ public class ArrayList<T> implements IndexedListADT<T> {
 //It’s more convenient to base the implementation of OrderedArrayList on top of ArrayList, but doing so would inherit too many methods, and methods would violate the inherent ordering of an ordered list.
 //Make a wrapper class to allow only methods we want to be accessible, and hide the underlying class as a private field. 
 
-//Linkd List Competition
+//Linked List Operations
 addLast() has O (Doubly-Linked-Structure)	and O(1) / O(n) (in case of shift)
