@@ -1,0 +1,15 @@
+//Maps
+
+//Modelling-Dictionary-Entry
+
+import java.util.Set;
+public class Entry {
+  private String headword;
+  private String pos; //part-of-speech of this word
+  /* One word can have multiple meanings in the same POS. */
+  private Set<String> meaning;
+
+  public String getHeadword() {
+    return headword;
+  }
+}
