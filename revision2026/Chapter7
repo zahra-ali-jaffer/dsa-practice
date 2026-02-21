@@ -1,1 +1,8 @@
 //Queues
+
+//Time complexity of deque -> O(n) -> shift every element down a spot -> Inefficient
+//Keep track of both, the front and the rear pointers + count (to tell whether queue is full or empty)
+//Handling "loop-back" -> to avoid causing ArrayIndexOutOfBounds exception (by accidentally going too far)
+//The modulus operator can deal with this
+
+rear = (rear + 1) % contents.length; //Works for front too
