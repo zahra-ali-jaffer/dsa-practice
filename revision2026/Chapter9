@@ -1,1 +1,14 @@
+//Sets
+//Time implication -> O(n)
+
+//pickRandom() method
+
+public T pickRandom(){
+  if (isEmpty()) throw new IllegalStateException("pickRandom: set empty!");
+  
+  // Use random module without importing it
+  java.util.Random rdm = new java.util.Random();
+  int choice = rdm.nextInt(count); //nextInt gives a random int between 0 and count-1
+  return contents[choice];
+}
 
