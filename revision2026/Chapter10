@@ -13,3 +13,42 @@ public class Entry {
     return headword;
   }
 }
+
+//Indexing of a table od database records
+//Example:Loop through a table based on either name or supplier -> create a map of each
+
+Map<String, Supplier> suppliersByName = new HashMap<>();
+Map<String, Set<Supplier>> suppliersByCity = new TreeMap<>();
+
+//Modelling Contents of a dictionary
+
+public class DictionaryEntry {
+  private String word;
+  private String definition;
+  private String example;
+  private User creator;
+  private Date dateCreated;
+  private int likes;
+  private int dislikes;
+}
+
+//To place these DictionaryEntry classes into a map -> choose a field to be a key
+//Extract word to be used as the key, where the DictionaryEntry is the value.
+
+Map<String, DictionaryEntry> dictionary = new HashMap<>(7500); //without a perfect hash function, multiply dictionary size by 1.5
+
+//Iterating through a Map -> The maps themselves are not Iterable (unlike an array)
+
+HashMap<String, Student> students = new HashMap<>();
+for(String key : students.keySet()) { //Returns set of keys
+  Student student = students.get(key);
+}
+// Or...
+for (Student student : students.values()) { //Returns collection of values
+  //Student already defined. Remember, values can be the same
+}
+//Or...
+for(Map.Entry<String, Student> kvp : students.entrySet()) { //Returns set of kvps
+  String key = kvp.getKey();
+  Student student = kvp.getValue();
+}
