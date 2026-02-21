@@ -1,1 +1,40 @@
+//Hash Functions
 
+//Extraction
+public int hashFunction(String name){
+  char initial = name.charAt(0); //Get the first character
+  int asciiCode = (int)initial; //Casting a char to an int gives its ASCII code
+  return asciiCode - 65; //To make A = 0, B = 1, so on so forth
+}
+
+//Division
+//A function to store a number of elements
+
+public int hashFunction(int id){
+  int absValue = Math.abs(id);
+  return absValue % table.size(); //Size of table
+}
+
+//Chaining solution -> to deal with Collisions
+//Treat every cell in the hash table to be conceptually a collection, either by using a linked structure, or by using an array based structure with an overflow area.
+
+//Items with the same content (with the equals() method) must share the same hash code.
+//public int hashCode()
+//It returns an integer based off the memory location the object is initially placed in, however, many classes override the inherited hashCode() method, and is necessary is the equals() method is overridden.
+
+//Example: Student class -> with overwritten methods
+public class Student{
+  private String id;
+  private String surname;
+  private String firstname;
+
+  public int hashCode() { return id.hashode(); }
+
+  public int equals(Object another){
+    if(another instanceof Student) return this.id.equals(another.id);
+    return false;
+  }
+}
+
+//String also overrides hashCode, and uses the following formula:
+//hash = s[0] * 31^{n-1}+s[1]*31^{n-2}+...+s[n-1]
