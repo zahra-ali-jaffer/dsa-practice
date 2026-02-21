@@ -52,3 +52,8 @@ for(Map.Entry<String, Student> kvp : students.entrySet()) { //Returns set of kvp
   String key = kvp.getKey();
   Student student = kvp.getValue();
 }
+
+//JCF
+//java.util.HashMap<K, V> -> Hash table implementation of a map, Irrelevant order of data (example: storing data for an electronic dictionary) 
+//java.util.concurrent.ConcurrentHashMap<K, V> -> thread-safe, supports concurrent operations (actions occuring at the same period of time)
+//java.util.TreeMap<K, V> -> Ordered map, natural order of keys, Useful when data needs to be ordered (example: printing a paper dictionary)
