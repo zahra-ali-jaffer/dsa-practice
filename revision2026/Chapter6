@@ -1,1 +1,62 @@
+//Stack
 
+//Bounded Stack Operation -> O(1) 
+//Implement a Stack ADT with -> Arrays, or Linear Linked Nodes (for an unbounded time efficient stack)
+
+//2D arrays
+int[][] a;
+a = new int[3][4 //3 rows, 4 columns
+
+double[][] b = new double[10][10]; //10 rows, 10 columns
+
+//Assigning values
+a[0][0] = 1; a[0][1] = 5; //improvement needed
+
+//Better way
+int[][]c = {{1, 5, 1, 4},{6, 0, 3, 2}} //2 rows, 4 columns
+
+//To get number of rows
+c.length //2
+
+//To get number of columns
+c[0].length //4
+
+
+//Loop through 2D array
+for (int row = 0; < c.length; row++) {
+  for (int col = 0; col < c[row].length; col++) {
+    c[row][col] *= 2;
+  }
+}
+
+//Or enhanced fors
+for (int[]row : c) {
+  for(int element : row) {
+    element++;
+  }
+}
+
+//Processing 2D arrays is O(n^2)
+
+//Stack extends java.util.Vector -> bad for modelling pure Stack
+//Wrap java.util.Stack in a wrapper class
+import java.util.Stack;
+
+public class PureStack<T> {
+  private Stack<T> stack;
+  /*...*/
+  public T pop() { return stack.pop(); }
+}
+
+//java.util.Stack isn’t part of the JCF
+
+
+//Use instead -> java.util.Deque, java.util.ArrayDeque, java.util.LinkedBlockingDeque and java.util.LinkedList
+//Deque -> Multipurpose, being stack or queue
+
+Stack - > Deque (Equivalent)
+push(e) -> addFirst(e)
+pop() -> removeFirst()
+peek() ->	peekFirst()
+
+//ArrayDeque is likely to be faster than Stack when used as a stack (the methods above run in constant time), provided developers stick to the stack-only methods. 
