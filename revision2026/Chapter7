@@ -6,3 +6,174 @@
 //The modulus operator can deal with this
 
 rear = (rear + 1) % contents.length; //Works for front too
+
+//CircularArrayQueue 
+
+public class CircularArrayQueue<T> implements QueueADT<T>{
+  private final int DEFAULT_CAPACITY = 100;
+  private t[] queue;
+
+  private int front; // First Element
+  private int rear; //Next spot available
+  private int count;
+
+  public CircularArrayQueue(){
+    queue = (T[]) (new Object[DEFAULT_CAPACITY]); 
+    front = 0; rear = 0; count = 0;
+  }
+  public void enqueue(T elem){
+    if(size() == queue.length) expandCapacity();
+
+    queue[rear] = element;
+    rear = (rear + 1) % queue.length;
+    count++;
+  }
+  private void expandCapacity() {
+    T[] larger = (T[]) new Array.newInstance(Object.class, queue.length * 2);
+
+    for (int scan = 0; scan < count; scan++) {
+      larger[scan] = queue[front];
+      front = (front + 1) % queue.length;
+    }
+    front = 0; rear = count;
+    queue = larger;
+  }
+  public T dequeu(){
+    if (isEmpty()) throw new IllegalStateException("dequeue: queue empty!");
+
+    T result = queue[front];
+    queue[front] = null;
+    front = (front + 1) % queue.length;
+    count--;
+
+    return result;
+  }
+}
+
+//In a linked structure, both `enqueue()` and `dequeue()` are O(1), in an unbounded linear array `enqueue()` is O(1) best and O(n) worst while `dequeue()` is O(n), and in an unbounded circular array `enqueue()` is O(1) best and O(n) worst while `dequeue()` is O(1).
+//Therefore, a linked structure implementation is more time efficient, but it’s less storage efficient due to the overhead is uses.
+
+//Queues can be used to simulate ticket counters
+private final int PROCESS = 120; // 2 minutes
+private final int MAX_CASHIERS = ?;
+private final int NUM_CUSTOMERS = ?;
+
+public static void main(String[] args) {
+	LinkedQueue<Customer> customers = new LinkedQueue<Customer>();
+	int[] cashierTime = new int[MAX_CASHIERS];
+	int totalTime, averageTime, departs;
+
+	for (int cashiers = 0; cashiers < MAX_CASHIERS; cashiers++) {
+		// Init each cashier's time of availablity.
+		for (int count = 0; count < cashiers; count++) cashierTime[count] = 0;
+		// Create queue of customers
+		for (int count = 1; count <= NUM_CUSTOMERS; count++) 
+			customerQueue.enqueue(new Customer(count * 15));
+	
+		while (!customerQueue.isEmpty()) {
+			for (int count = 0; count <= cashiers; count++) {
+				if (!customerQueue.isEmpty()) {
+					Customer customer = customerQueue.dequeue();
+					if (customer.getArrivalTime() > cashierTime[count])	
+						departs = customer.getArrivalTime() + PROCESS;
+					else departs = cashierTime[count] + PROCESS;
+					
+					customer.setDepartureTime(departs);
+					cashierTime[count] = departs;
+					totalTime += customer.totalTime();
+				}
+			}
+		}
+		averageTime = totalTime / NUM_CUSTOMERS;
+		System.out.println("Number of cashiers: " + (cashiers + 1));
+		System.out.println("Average time: " + averageTime + "\n");
+	}
+}
+
+//Priority Queues
+public interface Prioritised {
+	int getPriority();
+	void setPriority(int level);
+}
+
+public class LinkedPriorityQueue<T extends Prioritised> implements QueueADT<T> {
+	private LinearNode<T> front;
+	// There's no reason to keep track of the rear node this time
+	private int count;
+	
+	/* ... */
+	
+	public void enqueue(T el) { // A little different to usual
+		LinearNode<T> tmp = new LinearNode<T>(el);
+		LinearNode<T> previous = null;
+		LinearNode<T> current = front;
+
+		// Find where to insert
+		while (current != null && current.getElement().getPriority() >= el.getPriority()) {
+			previous = current;
+			current = current.getNext();
+		}
+
+		if (previous == null) { // Insert at front
+			tmp.setNext(front);
+			front = tmp;
+		} else {
+			tmp.setNext(previous.getNext());
+			previous.setNext(tmp);
+		}
+		
+		count++;
+	}
+
+	public T dequeue() { // Basically the same lmao
+		if (isEmpty()) throw new IllegalStateException("dequeue: queue empty!");
+		T item = front.getElement();
+		front = front.getNext();
+		count--;
+		return item;
+	}
+}
+
+//enqueue() is at time complexity of O(n), even worse with arrays if it has to keep shifting everything. Everything else is O(1)
+
+//Multi-Queue Implementation
+public class PriorityQueue<T extends Prioritised> implements QueueADT<T> {
+	private QueueADT<T>[] queueList;
+	private final int maxPriority;
+	private int count;
+	
+	public PriorityQueue(int maxPriority) {
+		this.maxPriority = maxPriority;
+		
+		queueList = (QueueADT<T>[]) Array.newInstance(QueueADT.class, maxPriority + 1);
+		for (int i = 0; i <= maxPriority; i++) { queueList[i] = new LinkedQueue<T>(); }
+		count = 0;
+	}
+
+	public void clear() { 
+		for (int i = 0; i <= maxPriority; i++) { queueList[i].clear(); }
+		count = 0;
+	}
+
+	public boolean isEmpty() { return count == 0; } // Just thought I'd clarify
+
+	public void enqueue(T element) {
+		int index = element.getPriority();
+		queueList[index].enqueue(element);
+		count++;
+	}
+
+	public T dequeue() {
+		if (isEmpty()) throw new IllegalStateException("dequeue: queue empty!");
+		int idx = findQueue();
+		count--;
+		return queueList[idx].dequeue();
+	}
+
+	private int findQueue() {
+		for (int i = maxPriority; i >= 0; i--) {
+			if (!queueList[i].isEmpty()) return i;
+		}
+		return -1;
+	}
+}
