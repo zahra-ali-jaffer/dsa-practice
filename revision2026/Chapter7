@@ -177,3 +177,7 @@ public class PriorityQueue<T extends Prioritised> implements QueueADT<T> {
 		return -1;
 	}
 }
+
+//ArrayDeque is likely to be faster than LinkedList when used as a queue. 
+//ArrayDeque is faster than: Stack when used as a Stack, and LinkedList when used as a Queue
+//PriorityQueue -> Ordered by a natural order 
