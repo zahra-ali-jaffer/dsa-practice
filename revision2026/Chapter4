@@ -67,10 +67,234 @@ public abstract class AbstractSet<T> implements SetADT<T>{
   }
 }
 
+//Working with Arrays
+//Declare an array -> that array has a fixed capacity throughout its lifetime
+//Arrays can be -> Java type, primitive or class
+
+//Allocate now, initialise later
+int[] a;
+a = new int[10];
+
+//Allocate and initialise now
+boolean[] attendanceInWeek = new boolean[5];
+java.util.GregorianCalendar[] calendars = new java.util.GregorianCalendar[2024];
+
+//Allocate and initialise with values now
+int[] c = {1, 3, 2, 4}; // This cannot be done after an array is already declared
+
+//“length” is a final field in every array, meaning it can be accessed as array.length
+//Default value for an array changes depending on its type:
+// int[]: 0 | boolean[]: false | String[], and other classes/reference types: null
+
+//1D Array -> O(n)
+
+//Sets
+import java.util.Iterator;
+public class ArraySet<T> extends AbstractSet<T> implements Bounded{
+  private static final int DEFAULT_CAPACITY = 100;
+
+  private T[] contents;
+  private final int maxSize;
+  private int count; //Different to length
+}
+  @SuppressWarnings("unchecked") // [bad sign when you see this]
+	public ArraySet(int maxSize) {
+		/* Make Object[] and type cast it to T[] */
+		contents = (T[]) (new Object[maxSize]);
+		// Alternatively, the better approach is to do... See Set_Appendix_2
+		contents = (T[]) Array.newInstance(Object.class, maxSize); 
+		count = 0;
+		this.maxSize = maxSize;
+	}
+
+	public ArraySet() { // Overload if there's no size provided.
+		this(DEFAULT_CAPACITY);
+	}
+
+	// Basic accessor methods
+	public int size() { return count; }
+	public boolean isEmpty() { return currentSize == 0; }
+	public int capacity { return maxSize; }
+	public boolean isfull() { return currentSize == maxSize; }
+
+	public boolean contains(T element) {
+		for (int i = 0; i < count; i++) { // Why not enhanced for? Using an enhanced for here is slightly slower because you have to go through the Iterator object
+			if (element.equals(contents[i]) return true;
+		}
+		return false;
+	}
+
+	public boolean add(T element) {
+		if (!contains(element)) {
+			if (!isFull()) {
+				contents[count] = element;
+				count++; // Remember to increment count so line above will always work!
+				return true;
+			} else throw new IllegalStateException("Set full in method add");
+		} else return false;
+	}
+
+	public boolean remove(T element) {
+		for (int i = 0; i < count; i++) {
+			if (element.equals(contents[i])) {
+				count--;
+				contents[i] = contents[count]; // So a gap isn't left behind
+				return true
+			}
+		}
+		return false;
+	}
+
+	public SetADT<T> intersection(SetADT<T> A) {
+		ArraySet<T> result = new ArraySet<T>(maxSize); // New set to hold result
+		for (int i = 0; i < count; i++) {
+			if (A.contains(contents[i])) {
+				result.contents[result.count] = contents[i];
+				result.count++;
+				// Why not do results.add()? 
+				// Because it will do the "if already exists" check when it's pointless
+			}
+		}
+		return result;
+	}
+
+	public Iterator<T> iterator() { return new ArrayIterator<T>(contents, count); }
+}
+
+// Seperate class for an ArrayIterator (since array doesn't already have one)
+public class ArrayIterator<T> implements Iterator<T> {
+	private T[] contents;
+	private int cursor;
+	private int limit;
+
+	public ArrayIterator(T[] array, int size) { // Params come from ArraySet
+		contents = array;
+		limit = size;
+		cursor = 0;
+	}
+
+	public boolean hasNext() { return cursor < limit; }
+
+	public T next() {
+		if (!hasNext()) throw new IllegalStateException("ArrayIterator: no next element");
+		else return contents[cursor++]; // Returned is contents[cursor], ++ happens after
+	}
+
+	public void remove() { throw new UnsupportedOperationException("remove"); }
+}
 
 
+//Whilst running new Object[maxSize] is easier, it’s also more dangerous. So use Array.newInstance(Object.class, maxSize) which avoids making an Object[], but it still has to be casted back to T[].
+//contains(), add(), remove() -> O(n)
+//intersection(), union(), difference() -> O(n^2)
 
+//Making an Array Implementation Unbounded
 
+public boolean add(T element) { // Replacing the old method!
+	boolean added = false; 
+	if (!contains(element)) {
+		if (size() == contents.length) { // isFull() won't exist without Bounded interface!
+			expandCapacity(); // No need to throw exceptions here anymore!
+		}
+		contents[count] = element;
+		count++; // Remember to increment count so line above will always work!
+		added = true
+	}
+	return added;
+}
 
+@SuppressWarnings("unchecked") // uh oh
+private void expandCapacity() {
+	// Creates the new, larger array.
+	T[] larger = (T[]) Array.newInstance(Object.class, contents.length * 2);
+	// Copy elements from old to new!
+	for (int index = 0; index < contents.length; index++) {
+		larger[index] = contents[index];
+	}
+	contents = larger; // Update contents to use new array.
+}
 
+//Stack -> Array implementation -> bounded collection, as it’ll have a max size
+public class ArrayStack<T> implements BoundedStackADT<T> {
+	private static final int DEFAULT_CAPACITY = 100;
+	private T[] contents;
+	private final int maxSize;
+	private int top; // currentSize, count.
 
+	public ArrayStack(int maxSize) {
+		contents = (T[]) (new Object[maxSize]); 
+		top = 0;
+		this.maxSize = maxSize;
+	}
+
+	// Accessor methods -> similar to ArraySet.
+	public int size() { return top; }
+	public boolean isEmpty() { return top == 0; }
+	public int capacity() { return maxSize; }
+	public boolean isFull() { return top == maxSize; }
+
+	public void push(T element) {
+		if (isFull()) throw new IllegalStateException("push: Stack full");
+		contents[top] = element;
+		top++;
+	}
+
+	public T pop() {
+		if (isEmpty()) throw new IllegalStateException("pop: Stack empty");
+		top--;
+		return contents[top];
+		// We don't need to reset the old top to null because it'll be overwritten anyway.
+	}
+
+	public T peek() {
+		if (isEmpty()) throw new IllegalStateException("pop: Stack empty");
+		return contents[top - 1];
+	}
+
+	public void clear() { top = 0; } // The time complexity of this is O(1).
+}
+
+// Time Complexity -> O(1)
+
+//Making an Array Implementation Unbounded
+//Only difference in push() operation
+
+public void push(T element){
+  if(size() == contents.length) expandCapacity();
+  contents[top] = element;
+  top++
+}
+
+//Time complexity of push() -> O(n)
+
+//Queue
+public class ArrayQueue<T> implements QueueADT<T> {
+	private static final int DEFAULT_CAPACITY = 100;
+	private int rear; // Next available spot
+	private T[] queue;
+
+	@SuppressWarnings("unchecked") 
+	public ArrayQueue(int initCapacity) {
+		rear = 0;
+		queue = (T[]) (new Object[initCapacity]); // Unsafe
+	}
+
+	public ArrayQueue() { ArrayQueue(DEFAULT_CAPACITY); }
+	
+	public void enqueue(T element) { // O(1)
+		if (size() == queue.length) throw new IllegalStateException("enqueue: queue full!");
+		queue[rear] = element;
+		rear++;
+	}
+
+	public T dequeue() { // O(n), without a clever implementation (e.g. circular arrays)
+		if (isEmpty()) throw new IllegalStateException("dequeue: queue empty!");
+		T result = queue[0];
+		rear--;
+		
+		for (int scan = 0; scan < rear; scan++) queue[scan] = queue[scan + 1];
+		
+		queue[rear] = null;
+		return result;
+	}
+}
