@@ -1,0 +1,76 @@
+//Arrays (Stacks, Queues, and Sets)
+
+//Abstract Classes -> Foster reuse, Improved modularisation
+//Implementing Set -> ArraySet, LinkedSet, HashSet, TreeSet
+
+//An abstract class can be used, because not all methods require the knowledge of how its implemented.
+
+//addAll() method in Set -> in an abstract class
+public boolean addAll(SetADT<T>A) { //Allows any type of set to be used here
+  boolean isModified = false;
+
+  for (T element : A) {
+    if (this.add(element)) //Important
+      isModified = true;
+  }
+  return isModified;
+}
+
+//Should add() also have a body? No it should remain abstract
+
+//JCF -> Class AbstractSet<E> implements Iterable<E>, Collection<E>, and Set<E>,  meaning those methods outlined need implementation, whilst adding implementations for removeAll(), hashCode(), and equals()
+
+//How to code this?
+
+import java.util.Iterator;
+public abstract class AbstractSet<T> implements SetADT<T>{
+  public boolean addAll(SetADT<T>A) {
+  /*repeating implementation from above*/
+    boolean isModified = false;
+
+    for (T element : A) {
+      if (this.add(element)) //Important
+        isModified = true;
+    }
+    return isModified;
+  }
+  public boolean removeAll(SetADT<T>A){
+    boolean isModified = false;
+    Iterator<T>iter = A.iterator(); //// We assume it's implemented in concrete
+    while (iter.hasNext()) {
+      if(this.remove(iter.next())) isModified = true;
+    }
+    return isModified;
+  }
+  public boolean retainAll(SetADT<T>A) {
+    boolean isModified = false;
+    Iterator<T> iter = this.iterator();
+    while (iter.hasNext()) {
+      if(!A.containes(iter.next())) {
+      // Removing from iter. removes it from both the iterator AND the underlying collection
+      iter.remove();
+      isModified = true;
+      }
+    }
+    return isModified;
+  }
+  public boolean isSubset(SetADT<T>A){
+    if (this.size() > A.size()) return false;
+    for (T element : this) {
+      if (!A.contains(element)) return false;
+    }
+    return true;
+  }
+  public boolean equals(SetADT<T>A){
+    if(this.size() != A.size()) return false;
+    return isSubset(A);
+  }
+}
+
+
+
+
+
+
+
+
