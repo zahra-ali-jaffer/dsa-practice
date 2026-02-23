@@ -1,0 +1,11 @@
+//Analysis of Algorithms
+
+//O(1) < O(log n) < O(n) <O(nlog  n) < O(n^2) < O(n^3) < O(2^n)
+
+//O(n^2) -> corresponds to nested loop
+
+for (int i = 0; i < a; i++) { // first n
+	for (int j = i; j < a; j++) { // n again, so now n^2
+		/* ... */
+	}
+}
