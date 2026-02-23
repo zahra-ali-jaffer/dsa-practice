@@ -1,0 +1,79 @@
+//Object-Oriented Design
+
+//Abstract class
+
+public abstract class Ownable {
+	private Person owner;
+	public Ownable() { /* ... */ }
+	public String getOwnerTel() { return owner.getTel(); }
+	public void changeOwner(Person newOwner) { /* ... */ }
+}
+
+//Inherit -> extend(java)
+public class Car extends Ownable { /* ... */ }
+
+//Storing objects inside its own attribute
+public class Person {
+	private String name;
+	private String phone;
+	private int income;
+	private Ownable[] possessions;
+
+	public Person(String name) { // Constructor
+		this.name = name;
+		this.phone = null;
+		this.income = 0;
+		this.possessions = new Ownable[2]; 
+	}
+
+	/* ... */
+}
+
+//Allows a client class to use the object, without knowing the underlying type
+
+ArrayList<BankAccount> myAccounts = new ArrayList<>(5);
+/* ... */
+myAccounts.add(new CurrentAccount());
+myAccounts.add(new MortgageAccount());
+/* ... */
+showAllAccounts(myAccounts);
+
+//Working with collection
+
+//before java 5.0
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Auction {
+	private ArrayList lots = new ArrayList();
+	/* ... */
+	public void showLots() {
+		Iterator itr = lots.iterator();
+		while (itr.hasNext()) {
+			System.out.println(itr.next());
+		}
+	}
+}
+
+//After java 5.0
+import java.util.ArrayList;
+// !
+
+public class Auction {
+	private ArrayList<Lot> lots = new ArrayList<>();
+	/* ... */
+	public void showLots() {
+		for (Lot lot : lots) {
+			System.out.println(lot);
+		}
+	}
+}
+
+//Generic Types -> create classes that store, operate on, and manage objects whose type is not specified until class instantiation. These classes use type variable(s) to refer to the unknown object type
+import java.util.ArrayList;
+
+public class Box<T> {
+	private ArrayList<T> contents;
+	/* ... */
+}
+
