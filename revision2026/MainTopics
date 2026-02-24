@@ -1,0 +1,38 @@
+//List Implementation
+//The notes define an array-based list structure with fields for collection and count, plus resizing logic.
+
+protected E[] collection;
+protected int count;
+
+public void add(E element) {
+  if (count == collection.length)
+    expandCapacity()
+  collection[count] = element;
+  count++
+}
+
+//LinkedNode
+
+public class LinearNode<E>{
+
+  private E element;
+  private LinearNode<E> next;
+
+  public LinearNode(E elem) {
+    element = elem;
+    next = null;
+  }
+  public LinearNode(E elem, LinearNode<E>, nextNode) {
+    element = elem;
+    next = nextNode;
+  }
+  public void setNext(LinearNode<E> nextNode) {
+    next = nextNode;
+  }
+  public LinearNode<E>getNext{
+    return next;
+  }
+  public void setEelement(E elem) {
+    element = elem;
+  }
+}
