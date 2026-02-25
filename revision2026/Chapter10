@@ -14,7 +14,7 @@ public class Entry {
   }
 }
 
-//Indexing of a table od database records
+//Indexing of a table of database records
 //Example:Loop through a table based on either name or supplier -> create a map of each
 
 Map<String, Supplier> suppliersByName = new HashMap<>();
