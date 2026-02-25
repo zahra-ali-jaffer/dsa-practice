@@ -14,7 +14,7 @@ class Person {
 //Linked Structures (each known as node) -> Dynamic -> Linear or Non-linear
 
 //Advantage:
-//More flexible, No storage space wasted with initial storage for cells in an array, No need to check in adding operationa if already full
+//More flexible, No storage space wasted with initial storage for cells in an array, No need to check in adding operations if already full
 
 //Disadvanatge:
 //Linked structure's nodes will have two referneces, array's cell will only have one; with the same size, arrays will take less space.
