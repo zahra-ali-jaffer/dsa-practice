@@ -4,7 +4,7 @@ A repository dedicated to **Data Structures and Algorithms (DSA) practice mostly
 
 ---
 
-## Repository Structure
+## Repository Structure 
 
 ### `yr_2_java-practice/`
 
