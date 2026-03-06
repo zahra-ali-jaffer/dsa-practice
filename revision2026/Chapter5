@@ -2,7 +2,7 @@
 //A Linked Structure refers to any group of objects where one object uses object reference values to link to another object. 
 //This object reference can usually be seen as a pointer to another object
 
-//Self-referential object -> A class that has a reference to itself
+//Self-referential object -> A class that has a reference to itself 
 
 class Person {
   private String name;
