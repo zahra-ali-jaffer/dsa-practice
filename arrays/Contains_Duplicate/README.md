@@ -2,7 +2,7 @@
 
 ## Problem Statement
 
-Given an integer array `nums`, return `true` if any value appears more than once in the array.
+Given an integer array `nums`, return `true` if any value appears more than once in the array. 
 Otherwise, return `false`.
 
 ---
