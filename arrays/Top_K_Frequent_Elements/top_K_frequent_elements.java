@@ -1,4 +1,4 @@
-class Solution {
+class Solution { 
     public int[] topKFrequent(int[] nums, int k) {
          //how many times a particular num is occuring
          //traverse array--> create a map, num and frequency
