@@ -7,6 +7,6 @@ class ValidAnagram {
         char[] b = t.toCharArray();
         Arrays.sort(a); //Sort
         Arrays.sort(b); //If two strings are anagrams, their sorted character arrays will be identical
-        return Arrays.equals(a, b); 
+        return Arrays.equals(a, b);  
     }
 }
