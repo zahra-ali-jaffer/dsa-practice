@@ -1,5 +1,5 @@
 class Solution {
-    public int[] productExceptSelf(int[] nums) {
+    public int[] productExceptSelf(int[] nums) { 
         int prod = 1, zeroCount = 0;
         for (int num : nums) {
             if (num!= 0){
