@@ -2,7 +2,7 @@
 //Implementing java.lang.Comparable interface
 
 public class Location implements Comparable<Location> {
-  private int x;
+  private int x; 
   private int y;
 
   public Location(int x, int y) {
