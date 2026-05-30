@@ -1,6 +1,6 @@
 //Trees
 
-//BinaryTree Class
+//BinaryTree Class 
 
 package dsaj;
 import java.util.Iterator;
