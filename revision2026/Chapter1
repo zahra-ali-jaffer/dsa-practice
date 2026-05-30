@@ -1,6 +1,6 @@
 //Object-Oriented Design
 
-//Abstract class
+//Abstract class 
 
 public abstract class Ownable {
 	private Person owner;
