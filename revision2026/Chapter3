@@ -108,7 +108,7 @@ public interface SetADT<T> extends Iterable<T> {
 //They remain the same as a set, with the difference being that duplicate elements must be accounted for.
 //Two methods can be added -> count(T element), sum()
 //count(T element)  - returns the number of occurrences of an element in a multi-set
-//sum() - concatenates the two multisets together, like {d,e,n} + {d,a,n,n,i} = {d,e,n,d,a,n,n,i}
+//sum() - concatenates the two multisets together, like {d,e,n} + {d,a,n,n,i} = {d,e,n,d,a,n,n,i} 
 
 }
 
