@@ -1,4 +1,4 @@
-// Collections
+// Collections 
 
 ArrayList<Book> bookshelf = new ArrayList<>(100); //A resizable list for Book objects, starting with capacity 100.
 java.util.HashSet<Treasure> myTreasure = new java.util.HashSet<>(); //A set for Treasure objects that stores unique items with no duplicates.
