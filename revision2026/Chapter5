@@ -3,7 +3,7 @@
 //This object reference can usually be seen as a pointer to another object
 
 //Self-referential object -> A class that has a reference to itself 
-
+ 
 class Person {
   private String name;
   private Person mother;
