@@ -8,7 +8,7 @@ public int hashFunction(String name){
 }
 
 //Division
-//A function to store a number of elements
+//A function to store a number of elements 
 
 public int hashFunction(int id){
   int absValue = Math.abs(id);
