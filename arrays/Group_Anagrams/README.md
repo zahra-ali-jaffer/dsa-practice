@@ -4,7 +4,7 @@
 
 Given an array of strings `strs`, group the anagrams together.
 
-You can return the answer in any order.
+You can return the answer in any order. 
 
 Two strings are anagrams if they contain the **same characters in the same frequency**, but possibly in a different order.
 
