@@ -4,7 +4,7 @@ class Solution {
          //traverse array--> create a map, num and frequency
          //iterate over array and retrieve the max frequency
          //Bucket-Sort (optimised solution)
-
+ 
          //Map
          Map<Integer, Integer> freqMap = new HashMap<>(); 
          for (int num : nums) {
