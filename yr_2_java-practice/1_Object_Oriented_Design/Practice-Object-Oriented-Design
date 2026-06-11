@@ -1,5 +1,5 @@
 //Abstract class - Model ownable from the UML Diagram
-
+ 
 public abstract class Ownable {
   private Person owner;  // Attribute: link to a Person (the owner) 
   public Ownable() {/*...*/} //Constructor
