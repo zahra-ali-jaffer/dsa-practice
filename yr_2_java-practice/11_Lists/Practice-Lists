@@ -3,7 +3,7 @@
 
 public enum Gender { male, female, other; }
 public class Person{
-  private String name;
+  private String name; 
   private Gender gender;
   private Person mother; //link to another person object
   private Person child; //self-referential
