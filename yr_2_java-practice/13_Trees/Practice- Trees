@@ -1,6 +1,6 @@
 //Implementing Generic Binary Trees
 
-public class BinaryTree<T> implements Iterable<T> {
+public class BinaryTree<T> implements Iterable<T> { 
   protected BinaryTreeNode<T> root; //root is the top node of the tree
 
   public BinaryTree() {root = null; } //If root == null, the tree is empty
