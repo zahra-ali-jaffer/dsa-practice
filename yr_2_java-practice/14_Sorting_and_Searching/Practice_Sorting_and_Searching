@@ -1,5 +1,5 @@
 //Unit 14. Sorting and Searching
-//Implementing java.lang.Comparable interface
+//Implementing java.lang.Comparable interface 
 
 public class Location implements Comparable<Location> {
   private int x;
