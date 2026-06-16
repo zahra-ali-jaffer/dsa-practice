@@ -1,4 +1,4 @@
-//List Implementation
+//List Implementation 
 //The notes define an array-based list structure with fields for collection and count, plus resizing logic.
 
 protected E[] collection;
