@@ -4,7 +4,7 @@
  
 public enum Gender { male, female, other; }
 
-public class Person {
+public class Person { 
   private String name;
   private Gender gender;
   private Person mother; //Link to another Person object
