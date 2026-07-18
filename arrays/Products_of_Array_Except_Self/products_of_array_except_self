@@ -1,4 +1,4 @@
-class Solution {
+class Solution { 
     public int[] productExceptSelf(int[] nums) { 
         int prod = 1, zeroCount = 0;
         for (int num : nums) {
