@@ -2,7 +2,7 @@
 
 //Improving person class
  
-public enum Gender { male, female, other; }
+public enum Gender { male, female, other; } 
 
 public class Person { 
   private String name;
