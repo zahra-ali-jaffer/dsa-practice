@@ -1,6 +1,6 @@
 //Lists
 
-//Improving person class
+//Improving person class 
  
 public enum Gender { male, female, other; } 
 
